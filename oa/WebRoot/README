@@ -1,0 +1,7 @@
+1、SSH框架整合
+	a、struts2.3：在下载的文件中有一个struts-blank.war,把lib里面的jar包拷贝进项目就可以
+	        两个配置文件：web.xml,struts.xml
+	b、hibernate3.6：required包，jpa,c3p0,还有驱动包
+	        两个配置文件:hibernate.cfg.xml,XXXX.hbm.xml
+	c、spring2.5:核心包，asp,cglib,commons包
+	
