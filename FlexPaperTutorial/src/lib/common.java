@@ -1,0 +1,182 @@
+package lib;
+
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class common extends Config {
+
+	/**
+	 * 检查文件名是否一致，文件名的长度,页数是否有超过255,文件名字中是否有特殊字符
+	 * @param path 文件的绝对路径
+	 * @param doc 目标文件
+	 * @param page 页数
+	 * @return
+	 */
+	public boolean validParams(String path, String doc, String page){
+		return !(	!doc.equals(basename(realpath(path))) ||
+				 	doc.length() > 255 ||
+				 	page.length() > 255 ||
+				 	(doc + page).indexOf("|") >= 0 ||
+				 	(doc + page).indexOf("\\") >= 0 ||
+				 	(doc + page).indexOf("/") >= 0
+				);
+	} 
+
+	/**
+	 * 得到一个全路径文件的文件名，比如c:\\docs\\test.pdf,那么返回结果为test.pdf
+	 * @param path 文件的全路径名
+	 * @return 文件名
+	 */
+	public String basename(String path){
+		File f = new File(path);
+		if(!f.exists())
+			return "";
+		int pos = path.lastIndexOf("\\");
+		if(	!isWin()){
+		    pos = path.lastIndexOf("/");
+		}
+		return path.substring(pos + 1);
+	}
+
+	/**
+	 * 得到文件的绝对路径
+	 * @param path 文件名
+	 * @return 绝对路径
+	 */
+	public String realpath(String path){
+		return new File(path).getAbsolutePath();
+	}
+
+	public void setCacheHeaders(HttpServletResponse response){
+		response.setHeader("Cache-Control", "private, max-age=10800, pre-check=10800");
+		response.setHeader("Pragma", "private");
+		SimpleDateFormat RFC822DATEFORMAT = new SimpleDateFormat("EEE', 'dd' 'MMM' 'yyyy' 'HH:mm:ss' 'Z", Locale.US);
+		response.setHeader("Expires", RFC822DATEFORMAT.format(new Date()));
+	}
+
+	public boolean endOrRespond(HttpServletRequest request, HttpServletResponse response){
+		String mod = request.getHeader("If-Modified-Since");
+		if(mod == null){
+			return true;
+		}
+		response.setHeader("Last-Modified", mod);
+		return false;
+	}
+
+	public String getForkCommandStart(){
+		if(	isWin())
+			return "START ";
+		return "";
+	}
+
+	public String getForkCommandEnd(){
+		if(	!isWin() )
+			return " >/dev/null 2>&1 &";
+		return "";
+	}
+
+	/**
+	 * 得到pdf文件上的总页数
+	 * @param PDFPath
+	 * @return
+	 */
+	public int getTotalPages(String PDFPath) {
+		return super.getTotalPage(PDFPath);
+	}
+
+	public String strip_non_numerics(String string) {
+		return super.strip_non_numerics(string);
+	}
+
+	/**
+	 * 得到一个字符串的hash值
+	 * @param string 要处理的字符串
+	 * @return hash值
+	 */
+	public int getStringHashCode(String string){
+		string = string.trim();
+		if(string == null || string.length() == 0)
+			return 0;
+		int hash = 0;
+		for(int i = 0; i < string.length(); i++){
+			hash = 31 * hash + (int)string.charAt(i);
+		}
+		return hash;
+    }
+
+	public String mysql_real_escape_string(String sql){
+		String ret = sql.trim();
+		ret.replace("\\", "\\\\");
+		ret.replace("\\\\\"", "\\\"");
+		return ret;
+	}
+
+	public BufferedImage createResizedCopy(Image originalImage, 
+            int scaledWidth, int scaledHeight, 
+            boolean preserveAlpha) {
+		int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
+		BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
+		Graphics2D g = scaledBI.createGraphics();
+	    if (preserveAlpha) {
+	    	g.setComposite(AlphaComposite.Src);
+	    }
+	    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null); 
+	    g.dispose();
+	    return scaledBI;
+	}
+
+
+	public void scale(String src, int width, int height, String dest) throws IOException {
+		BufferedImage bsrc = ImageIO.read(new File(src));
+		BufferedImage bdest = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		bdest = createResizedCopy(bsrc, width, height, false);
+		ImageIO.write(bdest,"png",new File(dest));
+	}
+
+	public String generateImage(String source_file, String cache_file, String resolution, String outformat) {
+		String extension = source_file.substring(source_file.lastIndexOf(".") + 1).toLowerCase();
+		try {
+			BufferedImage bimg = ImageIO.read(new File(source_file));
+			int width          = bimg.getWidth();
+			int height         = bimg.getHeight();
+			int resol = 1;
+			
+			if(resolution!=null){
+				try{
+					resol = Integer.parseInt(resolution.trim());
+				}catch(Exception e){
+					resol = width;
+				}
+				if (width <= resol) {
+					return source_file;
+				}
+			}else{
+				resol = width;
+			}
+			
+			double ratio      = (double)height / (double)width;
+			int new_width  = resol;
+			int new_height = (int)Math.ceil((double)(new_width * ratio));
+			BufferedImage bdest = new BufferedImage(new_width, new_height, BufferedImage.TYPE_INT_ARGB);
+			bdest = createResizedCopy(bimg, new_width, new_height, false);
+			ImageIO.write(bdest, extension, new File(cache_file));
+		}catch(Exception e){
+			cache_file = source_file;
+			e.printStackTrace();
+		}
+		return cache_file;
+	}
+}

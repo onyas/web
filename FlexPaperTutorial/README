@@ -1,0 +1,9 @@
+1、这是官方的DEMO
+2、第一次部署时，先访问/setup/index.jsp来做一下配置信息
+3、要安装swftool和pdf2json,只需要把pdf2json.exe拷贝到相应的目录即可
+4、在/setup/index.jsp中配置的信息，存放在System.getProperty("user.home")目录中的jspConfig/jspconfig.ini文件中
+5、若要重新配置，只需要把配置文件删除就可以了
+6、本系统中配置的用户名和密码都为admin
+7、上传的文件不要有中文，也不要有空格
+8、关于flexpaper的应用请直接参看/common/split_document.jsp
+9、参数的意思：http://flexpaper.devaldi.com/parameters.jsp
