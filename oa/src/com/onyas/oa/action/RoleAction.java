@@ -63,6 +63,9 @@ public class RoleAction extends ActionSupport{
 	 * @throws Exception
 	 */
 	public String editUI() throws Exception {
+		Role role = roleService.getById(id);
+		this.name = role.getName();
+		this.description = role.getDescription();
 		return "editUI";
 	}
 	/**
@@ -71,6 +74,13 @@ public class RoleAction extends ActionSupport{
 	 * @throws Exception
 	 */
 	public String edit() throws Exception {
+		//1、从数据库中取出原对象
+		Role role = roleService.getById(id);
+		//2、设置要修改的属性
+		role.setName(name);
+		role.setDescription(description);
+		//3、更新到数据库
+		roleService.update(role);
 		return "toList";
 	}
 	

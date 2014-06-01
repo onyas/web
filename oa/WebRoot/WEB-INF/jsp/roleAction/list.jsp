@@ -27,6 +27,7 @@
   		${name}
   		${description}
   		<a href="role_delete.action?id=${id}" onclick="return confirm('确定要删除该条记录?')">删除</a>
+  		<a href="role_editUI.action?id=${id}">修改</a>
   		<br/>
   	</s:iterator>
   </body>
