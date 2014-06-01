@@ -11,16 +11,24 @@ import com.onyas.oa.domain.Role;
 import com.onyas.oa.service.RoleService;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 
 @Controller
 @Scope("prototype")
-public class RoleAction extends ActionSupport{
+public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 
 	@Resource
 	private RoleService roleService;
-	private Long id;
-	private String name;
-	private String description;
+//	private Long id;
+//	private String name;
+//	private String description;
+	
+	private Role model = new Role();
+	
+	@Override
+	public Role getModel() {
+		return model;
+	}
 	
 	/**
 	 * 列出所有
@@ -49,11 +57,11 @@ public class RoleAction extends ActionSupport{
 	 */
 	public String add() throws Exception {
 		//1、得到参数，封装成对象
-		Role role = new Role();
-		role.setName(name);
-		role.setDescription(description);
+//		Role role = new Role();
+//		role.setName(name);
+//		role.setDescription(description);
 		//2、保存到数据库
-		roleService.save(role);
+		roleService.save(model);
 		return "toList";
 	}
 	
@@ -63,9 +71,10 @@ public class RoleAction extends ActionSupport{
 	 * @throws Exception
 	 */
 	public String editUI() throws Exception {
-		Role role = roleService.getById(id);
-		this.name = role.getName();
-		this.description = role.getDescription();
+		Role role = roleService.getById(model.getId());
+//		this.name = role.getName();
+//		this.description = role.getDescription();
+		ActionContext.getContext().getValueStack().push(role);//放到栈顶
 		return "editUI";
 	}
 	/**
@@ -75,10 +84,10 @@ public class RoleAction extends ActionSupport{
 	 */
 	public String edit() throws Exception {
 		//1、从数据库中取出原对象
-		Role role = roleService.getById(id);
+		Role role = roleService.getById(model.getId());
 		//2、设置要修改的属性
-		role.setName(name);
-		role.setDescription(description);
+		role.setName(model.getName());
+		role.setDescription(model.getDescription());
 		//3、更新到数据库
 		roleService.update(role);
 		return "toList";
@@ -90,36 +99,9 @@ public class RoleAction extends ActionSupport{
 	 * @throws Exception
 	 */
 	public String delete() throws Exception {
-		roleService.delete(id);
+		roleService.delete(model.getId());
 		return "toList";
 	}
 
-	
-	
-	
-	//-----------
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 }
