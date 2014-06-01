@@ -20,6 +20,8 @@
   		<br/>
   	</s:iterator>
   	--%>
+  	<s:a action="role_addUI">添加</s:a>
+  	<br/>
   	<s:iterator value="#roleList">
   		${id}
   		${name}

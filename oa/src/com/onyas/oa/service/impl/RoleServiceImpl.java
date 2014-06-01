@@ -27,4 +27,9 @@ public class RoleServiceImpl implements RoleService {
 		roleDao.delete(id);
 	}
 
+	@Override
+	public void save(Role role) {
+		roleDao.save(role);
+	}
+
 }

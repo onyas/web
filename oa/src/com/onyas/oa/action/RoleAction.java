@@ -19,6 +19,8 @@ public class RoleAction extends ActionSupport{
 	@Resource
 	private RoleService roleService;
 	private Long id;
+	private String name;
+	private String description;
 	
 	/**
 	 * 列出所有
@@ -46,6 +48,12 @@ public class RoleAction extends ActionSupport{
 	 * @throws Exception
 	 */
 	public String add() throws Exception {
+		//1、得到参数，封装成对象
+		Role role = new Role();
+		role.setName(name);
+		role.setDescription(description);
+		//2、保存到数据库
+		roleService.save(role);
 		return "toList";
 	}
 	
@@ -86,6 +94,22 @@ public class RoleAction extends ActionSupport{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }

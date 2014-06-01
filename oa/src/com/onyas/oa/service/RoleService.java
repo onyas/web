@@ -10,4 +10,6 @@ public interface RoleService {
 
 	void delete(Long id);
 
+	void save(Role role);
+
 }
