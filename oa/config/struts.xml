@@ -9,6 +9,9 @@
 	<constant name="struts.devMode" value="true" />
 	<!-- 配置扩展名为action -->
 	<constant name="struts.action.extension" value="action" />
+	<!-- 修改默认样式 -->
+	<constant name="struts.ui.theme" value="simple" />
+
 
 	<package name="default" namespace="/" extends="struts-default">
 
