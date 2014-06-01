@@ -16,6 +16,15 @@
 			<result name="success">/test.jsp</result>
 		</action>
 
+		<!-- 岗位管理 -->		
+		<action name="role_*" class="roleAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/roleAction/list.jsp</result>
+			<result name="addUI">/WEB-INF/jsp/roleAction/addUI.jsp</result>
+			<result name="editUI">/WEB-INF/jsp/roleAction/editUI.jsp</result>
+			<result name="toList" type="redirectAction">role_list</result>
+		</action>
+
+
 	</package>
 
 	<!-- Add packages here -->
