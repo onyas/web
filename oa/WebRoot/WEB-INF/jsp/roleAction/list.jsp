@@ -1,26 +1,31 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
     
     <title>My JSP 'index.jsp' starting page</title>
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+	
   </head>
   
   <body>
-    This is my JSP page. <br>
+  <%-- 
+  	<s:iterator value="#roleList">
+  		<s:property value="id"/>
+  		<s:property value="name"/>
+  		<s:property value="description"/>
+  		<a href="role_delete.action?id=<s:property value='id'/>" onclick="return confirm('确定要删除该条记录?')">删除</a>
+  		<s:a action="role_delete?id=%{id}">删除</s:a>
+  		<br/>
+  	</s:iterator>
+  	--%>
+  	<s:iterator value="#roleList">
+  		${id}
+  		${name}
+  		${description}
+  		<a href="role_delete.action?id=${id}" onclick="return confirm('确定要删除该条记录?')">删除</a>
+  		<br/>
+  	</s:iterator>
   </body>
 </html>
