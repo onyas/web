@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+//@Transactional中有这个注解可以被子类继承，所以加在父类上面，所有的方法都会加下事务，相反，如果只在子类加，父类方法不会有事务
 @SuppressWarnings("unchecked")
 @Transactional
 public abstract class BaseDaoImpl<T> implements BaseDao<T> {
