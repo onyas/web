@@ -6,11 +6,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings("unchecked")
+@Transactional
 public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 	@Resource
