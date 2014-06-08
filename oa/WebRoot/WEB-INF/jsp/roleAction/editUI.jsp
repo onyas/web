@@ -29,7 +29,7 @@
 
 <!--显示表单内容-->
 <div id="MainArea">
-    <s:form action="role_edit">
+    <s:form action="roleAction_edit">
     
     	<s:hidden name="id"></s:hidden>
         <div class="ItemBlock_Title1"><!-- 信息说明<DIV CLASS="ItemBlock_Title1">

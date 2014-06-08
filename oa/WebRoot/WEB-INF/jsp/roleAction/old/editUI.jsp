@@ -8,7 +8,7 @@
   </head>
   
   <body>
-  	<s:form action="role_edit">
+  	<s:form action="roleAction_edit">
   		<s:hidden name="id"></s:hidden>
   		<s:textfield name="name" label="名称"></s:textfield>
   		<s:textarea name="description" label="说明"></s:textarea>

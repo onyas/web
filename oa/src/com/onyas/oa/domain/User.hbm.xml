@@ -4,29 +4,28 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.onyas.oa.domain">
-	<!-- 一个class对应一个类,与表相关联起来 -->
-	<class name="User" table="t_user">
-		<!--id对应的是主键  -->
-		<id name="id" >
-			<generator class="native"></generator>
+
+	<class name="User" table="onyas_user">
+		<id name="id">
+            <generator class="native"/>
 		</id>
-		<property name="name" />
-		<property name="loginName" />
-		<property name="password" />
+		<property name="loginName"/>
+		<property name="password"/>
+		<property name="name"/>
 		<property name="gender" />
-		<property name="phoneNumber" />
-		<property name="email" />
-		<property name="description" />
+		<property name="phoneNumber"/>
+		<property name="email"/>
+		<property name="description"/>
 		
-		<!-- department属性，本类与Department的多对一关系  column需要与一的那一端对应-->
-		<many-to-one name="department" class="Department" column="departmentId">
-		</many-to-one>
-	
-		<!-- roles属性，本类与Role的多对多关系  -->
-		<set name="roles" table="t_user_role">
+		<!-- department属性，本类与Department的多对一 -->
+		<many-to-one name="department" class="Department" column="departmentId"></many-to-one>
+
+		<!-- roles属性，本类与Role的多对多 -->
+		<set name="roles" table="onyas_user_role">
 			<key column="userId"></key>
 			<many-to-many class="Role" column="roleId"></many-to-many>
 		</set>
 		
 	</class>
+	
 </hibernate-mapping>

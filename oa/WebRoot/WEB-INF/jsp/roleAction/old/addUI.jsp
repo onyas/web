@@ -8,7 +8,7 @@
   </head>
   
   <body>
-  	<s:form action="role_add">
+  	<s:form action="roleAction_add">
   		<s:textfield name="name" label="名称"></s:textfield>
   		<s:textarea name="description" label="说明"></s:textarea>
   		<s:submit value="确定"></s:submit>

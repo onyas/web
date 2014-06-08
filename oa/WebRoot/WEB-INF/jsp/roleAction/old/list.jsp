@@ -15,19 +15,19 @@
   		<s:property value="id"/>
   		<s:property value="name"/>
   		<s:property value="description"/>
-  		<a href="role_delete.action?id=<s:property value='id'/>" onclick="return confirm('确定要删除该条记录?')">删除</a>
-  		<s:a action="role_delete?id=%{id}">删除</s:a>
+  		<a href="roleAction_delete.action?id=<s:property value='id'/>" onclick="return confirm('确定要删除该条记录?')">删除</a>
+  		<s:a action="roleAction_delete?id=%{id}">删除</s:a>
   		<br/>
   	</s:iterator>
   	--%>
-  	<s:a action="role_addUI">添加</s:a>
+  	<s:a action="roleAction_addUI">添加</s:a>
   	<br/>
   	<s:iterator value="#roleList">
   		${id}
   		${name}
   		${description}
-  		<a href="role_delete.action?id=${id}" onclick="return confirm('确定要删除该条记录?')">删除</a>
-  		<a href="role_editUI.action?id=${id}">修改</a>
+  		<a href="roleAction_delete.action?id=${id}" onclick="return confirm('确定要删除该条记录?')">删除</a>
+  		<a href="roleAction_editUI.action?id=${id}">修改</a>
   		<br/>
   	</s:iterator>
   </body>

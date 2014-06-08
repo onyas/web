@@ -43,8 +43,8 @@
 				<td>${name}&nbsp;</td>
 				<td>${description}&nbsp;</td>
 				<td>
-					<s:a action="role_delete?id=%{id}" onclick="return delConfirm()">删除</s:a>
-					<s:a action="role_editUI?id=%{id}">修改</s:a>
+					<s:a action="roleAction_delete?id=%{id}" onclick="return delConfirm()">删除</s:a>
+					<s:a action="roleAction_editUI?id=%{id}">修改</s:a>
 					<a href="setPrivilegeUI.html">设置权限</a>
 				</td>
 			</tr>
@@ -56,7 +56,7 @@
     <!-- 其他功能超链接 -->
     <div id="TableTail">
         <div id="TableTail_inside">
-            <s:a action="role_addUI"><img src="${pageContext.request.contextPath}/style/images/createNew.png" /></s:a>
+            <s:a action="roleAction_addUI"><img src="${pageContext.request.contextPath}/style/images/createNew.png" /></s:a>
         </div>
     </div>
 </div>

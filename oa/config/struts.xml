@@ -20,21 +20,30 @@
 		</action>
 
 		<!-- 岗位管理 -->		
-		<action name="role_*" class="roleAction" method="{1}">
+		<action name="roleAction_*" class="roleAction" method="{1}">
 			<result name="list">/WEB-INF/jsp/roleAction/list.jsp</result>
 			<result name="addUI">/WEB-INF/jsp/roleAction/addUI.jsp</result>
 			<result name="editUI">/WEB-INF/jsp/roleAction/editUI.jsp</result>
-			<result name="toList" type="redirectAction">role_list</result>
+			<result name="toList" type="redirectAction">roleAction_list</result>
 		</action>
 
 
-		<!-- 部门管理 -->		
-		<action name="department_*" class="departmentAction" method="{1}">
+		<!-- 部门管理 -->
+		<action name="departmentAction_*" class="departmentAction" method="{1}">
 			<result name="list">/WEB-INF/jsp/departmentAction/list.jsp</result>
-			<result name="addUI">/WEB-INF/jsp/departmentAction/addUI.jsp</result>
-			<result name="editUI">/WEB-INF/jsp/departmentAction/editUI.jsp</result>
-			<result name="toList" type="redirectAction">department_list</result>
+			<result name="saveUI">/WEB-INF/jsp/departmentAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">departmentAction_list?parentId=${parentId}</result>
 		</action>
+
+		
+		<!-- 用户管理 -->
+		<action name="userAction_*" class="userAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/userAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/userAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">userAction_list</result>
+		</action>
+		
+		
 	</package>
 
 	<!-- Add packages here -->

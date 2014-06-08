@@ -12,6 +12,7 @@ public class SpringTest {
 
 	/**
 	 * 测试Spring的SessionFactory
+	 * 可以生成相应的表
 	 * @throws Exception
 	 */
 	@Test
