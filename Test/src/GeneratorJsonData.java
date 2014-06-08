@@ -10,7 +10,7 @@ public class GeneratorJsonData {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		generatorSystemparamJson();
+		generatorContentJson();
 	}
 
 	private static void generatorSystemparamJson() {
@@ -44,10 +44,10 @@ public class GeneratorJsonData {
 			StringBuilder sb = new StringBuilder();
 			sb.append("[");
 			for (int i = 10; i < 100; i++) {
-				sb.append("{\"name\":\"Test" + i
-						+ "\",\"paramname\":\"paramname" + i
-						+ "\",\"paramvalue\":\"paramvalue" + i
-						+ "\",\"comment\":\"comment" + i + "\"},");
+				sb.append("{\"name\":\"UDS主路asdxxxx" + i
+						+ "\",\"paramname\":\"UDS_SERVER_URL" + i
+						+ "\",\"paramvalue\":\"1" + i
+						+ "\",\"comment\":\"批量查询数据" + i + "\"},");
 			}
 			sb.setCharAt(sb.toString().length() - 1, ' ');
 			sb.append("]");
