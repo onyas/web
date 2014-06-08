@@ -25,7 +25,9 @@ public class InitPrivilegeData {
 	private SessionFactory sessionFactory;
 	
 	/**
-	 * 初始化权限数据
+	 * 方法名一定是public的才能有事务功能，不然会报错
+	 *  No Hibernate Session bound to thread, 
+	 *  and configuration does not allow creation of non-transactional one here
 	 */
 	@Transactional
 	public void install() {
