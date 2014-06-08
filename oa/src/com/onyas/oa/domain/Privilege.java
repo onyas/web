@@ -19,6 +19,25 @@ public class Privilege {
 	private Privilege parent;
 	private Set<Privilege> children = new HashSet<Privilege>();
 	
+	public Privilege() {
+	}
+	
+	
+	/**
+	 * 
+	 * @param name 权限名字(菜单名字)
+	 * @param url  访问路径
+	 * @param icon 菜单图标
+	 * @param parent 父菜单
+	 */
+	public Privilege(String name, String url, String icon, Privilege parent) {
+		super();
+		this.name = name;
+		this.url = url;
+		this.icon = icon;
+		this.parent = parent;
+	}
+
 	public Long getId() {
 		return id;
 	}
