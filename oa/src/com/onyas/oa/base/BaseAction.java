@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import com.onyas.oa.domain.Role;
 import com.onyas.oa.service.DepartmentService;
+import com.onyas.oa.service.PrivilegeService;
 import com.onyas.oa.service.RoleService;
 import com.onyas.oa.service.UserService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -18,6 +19,8 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 	protected DepartmentService departmentService;
 	@Resource
 	protected UserService userService;
+	@Resource
+	protected PrivilegeService privilegeService;
 	
 	protected T model ;
 	
