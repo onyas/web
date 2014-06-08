@@ -18,10 +18,12 @@
 		<property name="show_sql">true</property>
 		<property name="hbm2ddl.auto">update</property>
 		
+		
 		<!-- 导入映射配置 -->
 		<mapping resource="com/onyas/oa/domain/User.hbm.xml"/>
 		<mapping resource="com/onyas/oa/domain/Role.hbm.xml"/>
 		<mapping resource="com/onyas/oa/domain/Department.hbm.xml"/>
+		<mapping resource="com/onyas/oa/domain/Privilege.hbm.xml"/>
 		
 	</session-factory>
 </hibernate-configuration>

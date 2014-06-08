@@ -9,8 +9,8 @@ import com.onyas.oa.base.BaseDaoImpl;
 import com.onyas.oa.domain.Department;
 import com.onyas.oa.service.DepartmentService;
 
-@Service
 @SuppressWarnings("unchecked")
+@Service
 public class DepartmentServiceImpl extends BaseDaoImpl<Department> implements DepartmentService {
 	
 	public List<Department> findTopList() {
