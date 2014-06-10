@@ -84,8 +84,16 @@
 						<tr class="TableDetail1">
 							<!-- 显示权限树 -->
 							<td>
+							<%--
 							<s:checkboxlist name="privilegeIds" list="#privilegeList" listKey="id" listValue="name"></s:checkboxlist>
-							
+							  --%>
+							  
+							  <!-- 直接写Html，并自行实现回显效果 -->
+							  <s:iterator value="#privilegeList">
+							  	<input type="checkbox" name="privilegeIds" value="${id }" />
+								<lable>${name }</lable>
+							  </s:iterator>
+							  
 							</td>
 						</tr>
 					</tbody>
