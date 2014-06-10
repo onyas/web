@@ -39,7 +39,7 @@
     	} 
     	
     	$(function(){
-    		$("#tree").treeview();
+    	//	$("#tree").treeview();
     	});
     </script>
 </head>
@@ -90,10 +90,10 @@
 							  
 							  <!-- 直接写Html，并自行实现回显效果 -->
 							  <s:iterator value="#privilegeList">
-							  	<input type="checkbox" name="privilegeIds" value="${id }" 
+							  	<input type="checkbox" name="privilegeIds" value="${id}"  id="cb_${id}"
 							  		<s:property value="%{id in privilegeIds ? 'checked' : ''}"/>
 							  	/>
-								<lable>${name }</lable>
+								<label for="cb_${id}">${name}</label>
 							  </s:iterator>
 							  
 							</td>
