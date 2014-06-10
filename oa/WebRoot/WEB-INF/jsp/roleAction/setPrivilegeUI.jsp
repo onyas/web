@@ -90,7 +90,9 @@
 							  
 							  <!-- 直接写Html，并自行实现回显效果 -->
 							  <s:iterator value="#privilegeList">
-							  	<input type="checkbox" name="privilegeIds" value="${id }" />
+							  	<input type="checkbox" name="privilegeIds" value="${id }" 
+							  		<s:property value="%{id in privilegeIds ? 'checked' : ''}"/>
+							  	/>
 								<lable>${name }</lable>
 							  </s:iterator>
 							  
