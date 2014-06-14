@@ -98,8 +98,8 @@ public class RoleAction extends BaseAction<Role>  {
 		Role role = roleService.getById(model.getId());
 		ActionContext.getContext().put("role", role);
 		
-		List<Privilege> privilegeList = privilegeService.findAll();
-		ActionContext.getContext().put("privilegeList", privilegeList);
+		List<Privilege> topPrivilegeList = privilegeService.findTopList();
+		ActionContext.getContext().put("topPrivilegeList", topPrivilegeList);
 		//准备回显数据
 		privilegeIds = new Long[role.getPrivileges().size()];
 		int index=0;
