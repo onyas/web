@@ -42,6 +42,10 @@
 			<result name="list">/WEB-INF/jsp/userAction/list.jsp</result>
 			<result name="saveUI">/WEB-INF/jsp/userAction/saveUI.jsp</result>
 			<result name="toList" type="redirectAction">userAction_list</result>
+
+			<result name="loginUI">/WEB-INF/jsp/userAction/loginUI.jsp</result>
+			<result name="logout">/WEB-INF/jsp/userAction/logout.jsp</result>
+			<result name="toIndex" type="redirect">/index.jsp</result>
 		</action>
 		
 		
