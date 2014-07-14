@@ -43,6 +43,36 @@ public class User {
 		return false;
 	}
 
+	
+	
+	/**
+	 * 判断用户是否有指定URL的权限
+	 * 
+	 * @return
+	 */
+	public boolean hasPrivilegeByUrl(String prvilegeUrl) {
+		//如果是超级管理员，则有所有权限
+		if(isAdmin()){
+			return true;
+		}
+		
+		//如果以UI结尾，就去掉UI后缀，以得到对应的权限（例如：addUI与add是同一权限）
+		if(prvilegeUrl.endsWith("UI")){
+			prvilegeUrl = prvilegeUrl.substring(0,prvilegeUrl.length()-2);
+		}
+		
+		//如果是其他用户，则进行判断
+		for (Role role : roles) {
+			for (Privilege privilege : role.getPrivileges()) {
+				if (prvilegeUrl.equals(privilege.getUrl())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
 	private boolean isAdmin() {
 		return "admin".equals(loginName);
 	}

@@ -44,6 +44,7 @@
 				<td>
 					<s:a action="departmentAction_delete?id=%{id}&parentId=%{parent.id}" onclick="return window.confirm('这将删除所有的下级部门，您确定要删除吗？')">删除</s:a>
 					<s:a action="departmentAction_editUI?id=%{id}">修改</s:a>
+					&nbsp;
 				</td>
 			</tr>
 		</s:iterator>	
