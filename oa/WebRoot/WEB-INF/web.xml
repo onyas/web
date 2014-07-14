@@ -13,6 +13,13 @@
 		<param-value>classpath:applicationContext*.xml</param-value>
 	</context-param>
 
+	<!-- 用于初始化顶级权限数据的监听器 -->
+	<listener>
+		<listener-class>com.onyas.oa.action.InitServletContextListener</listener-class>
+	</listener>
+	
+
+
 
 	<!-- 配置Spring的OpenSessionInViewFilter，以解决懒加载异常的问题 -->
 	<filter>
