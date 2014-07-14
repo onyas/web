@@ -1,7 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <html>
 <head>
-	<title>Itcast OA</title>
+	<title>onyas OA</title>
     <%@ include file="/WEB-INF/jsp/public/common.jspf" %>
 	<link href="${pageContext.request.contextPath}/style/blue/login.css" type=text/css rel=stylesheet>
 	<script type="text/javascript">
@@ -41,7 +41,7 @@
                     </tr>
                 </table>
             </div>
-            <div id="CopyRight"><a href="javascript:void(0)">&copy; 2010 版权所有 itcast</a></div>
+            <div id="CopyRight"><a href="javascript:void(0)">&copy; 2010 版权所有 onyas</a></div>
         </div>
     </div>
     </s:form>
