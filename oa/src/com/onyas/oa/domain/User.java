@@ -5,6 +5,7 @@ import java.util.Set;
 
 /**
  * 用户
+ * 
  * @author tyg
  * 
  */
@@ -20,6 +21,31 @@ public class User {
 	private String phoneNumber; // 电话号码
 	private String email; // 电子邮件
 	private String description; // 说明
+
+	/**
+	 * 判断用户是否有指定名称的权限
+	 * 
+	 * @return
+	 */
+	public boolean hasPrivilegeByName(String prvilegeName) {
+		//如果是超级管理员，则有所有权限
+		if(isAdmin()){
+			return true;
+		}
+		//如果是其他用户，则进行判断
+		for (Role role : roles) {
+			for (Privilege privilege : role.getPrivileges()) {
+				if (privilege.getName().equals(prvilegeName)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean isAdmin() {
+		return "admin".equals(loginName);
+	}
 
 	public Long getId() {
 		return id;
