@@ -8,6 +8,14 @@
 		$(function(){
 			document.forms[0].loginName.focus();
 		});
+
+		//在被嵌套时，就刷新上级窗口
+		if(window.parent!=window){//判断被嵌套的方法，不嵌套时，上级窗口等于自己
+			//window.parent上级窗口
+			//window.location.reload(true);刷新当前窗口
+			window.parent.location.reload(true);//刷新上级窗口
+		}
+		
 	</script>
 </head>
 
