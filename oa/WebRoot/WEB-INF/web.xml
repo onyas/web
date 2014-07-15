@@ -15,7 +15,7 @@
 
 	<!-- 用于初始化顶级权限数据的监听器 -->
 	<listener>
-		<listener-class>com.onyas.oa.action.InitServletContextListener</listener-class>
+		<listener-class>com.onyas.oa.listener.InitServletContextListener</listener-class>
 	</listener>
 	
 

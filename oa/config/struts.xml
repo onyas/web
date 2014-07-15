@@ -15,6 +15,23 @@
 
 	<package name="default" namespace="/" extends="struts-default">
 
+		<interceptors>
+			<!-- 声明一个拦截器 -->
+			<interceptor name="checkPrivilege" class="com.onyas.oa.interceptor.CheckPrivilegeInterceptor"></interceptor>
+			
+			<!-- 重新定义 defaultStack拦截器栈，需要先判断权限-->
+			<interceptor-stack name="defaultStack">
+				<interceptor-ref name="checkPrivilege"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+
+		<global-results>
+			<result name="loginUI">/WEB-INF/jsp/userAction/loginUI.jsp</result>
+			<result name="noPrivilegeError">/noPrivilegeError.jsp</result>
+		</global-results>
+
+
 		<action name="test" class="testAction">
 			<result name="success">/test.jsp</result>
 		</action>
@@ -43,7 +60,6 @@
 			<result name="saveUI">/WEB-INF/jsp/userAction/saveUI.jsp</result>
 			<result name="toList" type="redirectAction">userAction_list</result>
 
-			<result name="loginUI">/WEB-INF/jsp/userAction/loginUI.jsp</result>
 			<result name="logout">/WEB-INF/jsp/userAction/logout.jsp</result>
 			<result name="toIndex" type="redirect">/index.jsp</result>
 		</action>

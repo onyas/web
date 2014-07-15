@@ -1,4 +1,4 @@
-package com.onyas.oa.action;
+package com.onyas.oa.listener;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.onyas.oa.domain.Privilege;
 import com.onyas.oa.service.PrivilegeService;
-import com.sun.accessibility.internal.resources.accessibility;
 
 public class InitServletContextListener implements ServletContextListener {
 
@@ -26,10 +25,16 @@ public class InitServletContextListener implements ServletContextListener {
 		//得到Service的实体对象
 		ApplicationContext ac=WebApplicationContextUtils.getWebApplicationContext(application);
 		PrivilegeService privilegeService =(PrivilegeService) ac.getBean("privilegeServiceImpl");
+		
 		//准备所有顶级权限的集合（顶级菜单）
 		List<Privilege> topPrivilegeList =privilegeService.findTopList();
 		application.setAttribute("topPrivilegeList", topPrivilegeList);
 		System.out.println("已准备好顶级权限的数据");
+		
+		//准备所有权限URL的集合
+		List<Privilege> allPrivilegeList=privilegeService.findAllPrivilegeList();
+		application.setAttribute("allPrivilegeList", allPrivilegeList);
+		System.out.println("已准备好所有权限URL的地址");
 	}
 
 }

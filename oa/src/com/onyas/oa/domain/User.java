@@ -1,7 +1,10 @@
 package com.onyas.oa.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  * 用户
@@ -62,14 +65,20 @@ public class User {
 		}
 		
 		//如果是其他用户，则进行判断
-		for (Role role : roles) {
-			for (Privilege privilege : role.getPrivileges()) {
-				if (prvilegeUrl.equals(privilege.getUrl())) {
-					return true;
+		List<String> allPrivilegeUrl = (List<String>) ActionContext.getContext().getApplication().get("allPrivilegeList");
+		if(!allPrivilegeUrl.contains(prvilegeUrl)){//如果不是要控制的功能，则所有用户都可以使用(URL不在数据库中)
+			return true;
+		}else{//如果是要控制的功能，则有权限才能使用
+			for (Role role : roles) {
+				for (Privilege privilege : role.getPrivileges()) {
+					if (prvilegeUrl.equals(privilege.getUrl())) {
+						return true;
+					}
 				}
 			}
+			return false;
 		}
-		return false;
+		
 	}
 	
 	
