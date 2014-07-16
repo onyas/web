@@ -69,6 +69,15 @@
 			<result name="{1}">/WEB-INF/jsp/homeAction/{1}.jsp</result>
 		</action>
 		
+		
+		<!-- 用户管理 -->
+		<action name="forumManagerAction_*" class="forumManagerAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/forumManagerAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/forumManagerAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">forumManagerAction_list</result>
+		</action>
+		
+		
 	</package>
 
 	<!-- Add packages here -->

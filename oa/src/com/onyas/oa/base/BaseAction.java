@@ -4,8 +4,8 @@ import java.lang.reflect.ParameterizedType;
 
 import javax.annotation.Resource;
 
-import com.onyas.oa.domain.Role;
 import com.onyas.oa.service.DepartmentService;
+import com.onyas.oa.service.ForumService;
 import com.onyas.oa.service.PrivilegeService;
 import com.onyas.oa.service.RoleService;
 import com.onyas.oa.service.UserService;
@@ -21,6 +21,8 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 	protected UserService userService;
 	@Resource
 	protected PrivilegeService privilegeService;
+	@Resource
+	protected ForumService forumService;
 	
 	protected T model ;
 	
