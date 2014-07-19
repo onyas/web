@@ -7,24 +7,36 @@
 
 	<class name="Topic" table="onyas_topic">
 		<id name="id">
-            <generator class="native"/>
+			<generator class="native" />
 		</id>
-		<property name="title"/>
-		<property name="content" type="text" length="50000"/>
-		<property name="faceIcon"/>
-		<property name="postTime" type="timestamp"/>
-		<property name="ipAddr"/>
-		
+		<property name="title" />
+		<property name="content" type="text" length="50000" />
+		<property name="faceIcon" />
+		<property name="postTime" type="timestamp" />
+		<property name="ipAddr" />
+
 		<!-- author属性，本类与User类的多对一关系 -->
 		<many-to-one name="author" class="User" column="authorId"></many-to-one>
-		<property name="type"/>
-		<property name="replyCount"/>
-		<property name="lastUpdateTime" type="timestamp"/>
-	
-		
-		
-		
-	
+		<property name="type" />
+		<property name="replyCount" />
+		<property name="lastUpdateTime" type="timestamp" />
+
+		<!-- forum属性，本类与Forum类的多对一关系 -->
+		<many-to-one name="forum" class="Forum" column="forumId"></many-to-one>
+
+		<!-- replies属性，本类与Reply类的一对多关系 -->
+		<set name="replies">
+			<key column="topicId"></key><!-- 这个属性要参考Reply中的多对一中的column -->
+			<one-to-many class="Reply" />
+		</set>
+
+		<!-- lastReply属性，本类与Reply类的一对一关系 -->
+		<!-- 一对一关系，分为主键关联和外键关联，这里是用的外键关联，unique="true"标识只有一条记录 -->
+		<many-to-one name="lastReply" class="Reply" column="lastReplyId"
+			unique="true"></many-to-one>
+
+
+
 	</class>
-	
+
 </hibernate-mapping>
