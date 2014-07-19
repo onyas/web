@@ -25,6 +25,8 @@
 		<mapping resource="com/onyas/oa/domain/Department.hbm.xml"/>
 		<mapping resource="com/onyas/oa/domain/Privilege.hbm.xml"/>
 		<mapping resource="com/onyas/oa/domain/Forum.hbm.xml"/>
+		<mapping resource="com/onyas/oa/domain/Reply.hbm.xml"/>
+		<mapping resource="com/onyas/oa/domain/Topic.hbm.xml"/>
 		
 	</session-factory>
 </hibernate-configuration>
