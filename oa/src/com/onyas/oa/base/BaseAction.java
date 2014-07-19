@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType;
 
 import javax.annotation.Resource;
 
+import com.onyas.oa.domain.User;
 import com.onyas.oa.service.DepartmentService;
 import com.onyas.oa.service.ForumService;
 import com.onyas.oa.service.PrivilegeService;
@@ -11,6 +12,7 @@ import com.onyas.oa.service.ReplyService;
 import com.onyas.oa.service.RoleService;
 import com.onyas.oa.service.TopicService;
 import com.onyas.oa.service.UserService;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -46,5 +48,9 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 	
 	public T getModel() {
 		return model;
+	}
+	
+	protected User getCurrentUser(){
+		return (User) ActionContext.getContext().get("user");
 	}
 }

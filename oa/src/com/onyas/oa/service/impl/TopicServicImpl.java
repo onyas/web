@@ -9,6 +9,7 @@ import com.onyas.oa.domain.Forum;
 import com.onyas.oa.domain.Topic;
 import com.onyas.oa.service.TopicService;
 
+@SuppressWarnings("unchecked")
 @Service
 public class TopicServicImpl extends BaseDaoImpl<Topic> implements TopicService {
 
@@ -21,4 +22,21 @@ public class TopicServicImpl extends BaseDaoImpl<Topic> implements TopicService 
 		.list();
 	}
 
+	 @Override
+	public void save(Topic topic) {
+		//1、设置属性并保存
+//		 model.setType(Topic.TYPE_NORMAL);//默认为0
+//		 model.setReplyCount(0);//默认为0
+//		 model.setLastReply(null);//默认为null
+		 topic.setLastUpdateTime(topic.getPostTime());
+		 getSession().save(topic);
+		 
+		 //2、维护相关的信息
+		 Forum forum = topic.getForum();
+		 forum.setArticleCount(forum.getArticleCount()+1);//设置文章数
+		 forum.setTopicCount(forum.getTopicCount()+1);//设置主题数加1
+		 forum.setLastTopic(topic);//设置最后发表的主题
+		 getSession().update(forum);
+	 }
+	
 }
