@@ -5,6 +5,7 @@
     <%@ include file="/WEB-INF/jsp/public/common.jspf" %>
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/style/blue/forum.css" />
 	
+	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/fckeditor/fckeditor.js"></script>
 	<script type="text/javascript">
 		$(function(){
