@@ -88,13 +88,13 @@
 		<action name="topicAction_*" class="topicAction" method="{1}">
 			<result name="addUI">/WEB-INF/jsp/topicAction/addUI.jsp</result>
 			<result name="show">/WEB-INF/jsp/topicAction/show.jsp</result>
-			<result name="toShow" type="redirectAction">topicAction_show</result>
+			<result name="toShow" type="redirectAction">topicAction_show?id=${id}</result>
 		</action>
 		
 		<!-- 论坛：回复功能相关 -->
 		<action name="replyAction_*" class="replyAction" method="{1}">
 			<result name="addUI">/WEB-INF/jsp/replyAction/addUI.jsp</result>
-			<result name="toTopicShow" type="redirectAction">topicAction_show</result>
+			<result name="toTopicShow" type="redirectAction">topicAction_show?id=${topicId}</result>
 		</action>
 		
 		

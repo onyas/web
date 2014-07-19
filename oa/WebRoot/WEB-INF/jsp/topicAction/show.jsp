@@ -109,7 +109,7 @@
 
 
 			<!-- ~~~~~~~~~~~~~~~ 显示回复列表 ~~~~~~~~~~~~~~~ -->
-			<s:iterator value="recordList" status="status"> 
+			<s:iterator value="replyList" status="status"> 
 			<div class="ListArea template">
 				<table border="0" cellpadding="0" cellspacing="1" width="100%">
 					<tr>

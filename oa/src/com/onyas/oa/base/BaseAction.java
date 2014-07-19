@@ -51,6 +51,6 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 	}
 	
 	protected User getCurrentUser(){
-		return (User) ActionContext.getContext().get("user");
+		return (User) ActionContext.getContext().getSession().get("user");
 	}
 }
