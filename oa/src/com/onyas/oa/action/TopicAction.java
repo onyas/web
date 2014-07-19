@@ -1,6 +1,7 @@
 package com.onyas.oa.action;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import com.onyas.oa.base.BaseAction;
 import com.onyas.oa.domain.Forum;
+import com.onyas.oa.domain.Reply;
 import com.onyas.oa.domain.Topic;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -19,6 +21,13 @@ public class TopicAction extends BaseAction<Topic> {
 	
 	/** 显示单个主题(主贴加回贴列表) */
 	public String show() throws Exception {
+		//准备数据 topic
+		Topic topic = topicService.getById(model.getId());
+		ActionContext.getContext().put("topic", topic);
+		
+		//准备数据  replyList
+		List<Reply> replyList = replyService.findByTopic(topic);
+		ActionContext.getContext().put("replyList", replyList);
 		return "show";
 	}
 
