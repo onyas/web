@@ -34,7 +34,7 @@
         <!--显示数据列表-->
         <tbody id="TableData" class="dataContainer" datakey="userList">
         
-        <s:iterator value="#userList"> 
+        <s:iterator value="recordList"> 
             <tr class="TableDetail1 template">
                 <td>${loginName}&nbsp;</td>
                 <td>${name}&nbsp;</td>
@@ -56,6 +56,9 @@
             
         </tbody>
     </table>
+    <!-- 分页信 息-->
+	<form action="userAction_list.action"></form>
+  	<%@ include file="/WEB-INF/jsp/public/pageView.jspf" %>
     
     <!-- 其他功能超链接 -->
     <div id="TableTail">

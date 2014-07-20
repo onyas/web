@@ -23,4 +23,13 @@ public class TestService {
 		session.save(new User());
 	}
 	
+	@Transactional
+	public void saveUsers(){
+		Session session=sessionFactory.getCurrentSession();
+		for(int i=0;i<24;i++){
+			User user = new User();
+			user.setName("test="+i);
+			session.save(user);
+		}
+	}
 }

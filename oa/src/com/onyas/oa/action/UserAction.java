@@ -12,6 +12,7 @@ import com.onyas.oa.domain.Department;
 import com.onyas.oa.domain.Role;
 import com.onyas.oa.domain.User;
 import com.onyas.oa.utils.DepartmentUtils;
+import com.onyas.oa.utils.HqlHelper;
 import com.opensymphony.xwork2.ActionContext;
 
 @Controller
@@ -23,8 +24,11 @@ public class UserAction extends BaseAction<User> {
 
 	/** 列表 */
 	public String list() throws Exception {
-		List<User> userList = userService.findAll();
-		ActionContext.getContext().put("userList", userList);
+//		List<User> userList = userService.findAll();
+//		ActionContext.getContext().put("userList", userList);
+		
+		new HqlHelper(User.class)
+		.buildPageBeanForStruts2(pageNum, userService);
 		return "list";
 	}
 
