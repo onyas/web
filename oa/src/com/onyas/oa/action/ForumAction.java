@@ -31,8 +31,15 @@ public class ForumAction extends BaseAction<Forum>{
 //		List<Topic> topicList = topicService.findByForum(forum);
 //		ActionContext.getContext().put("topicList", topicList);
 		//准备分页数据
-		PageBean pageBean = topicService.getPageBean(pageNum,forum);
+//		PageBean pageBean = topicService.getPageBean(pageNum,forum);
+//		ActionContext.getContext().getValueStack().push(pageBean);
+		
+		//准备分页数据(提取公共的部分)
+		String hql="FROM Topic t WHERE t.forum=? ORDER BY (CASE t.type WHEN 2 THEN 2 ELSE 0 END ) DESC,t.lastUpdateTime DESC";
+		Object[] parameter=new Object[]{forum};
+		PageBean pageBean = topicService.getPageBean(pageNum,hql,parameter);
 		ActionContext.getContext().getValueStack().push(pageBean);
+		
 		return "show";
 	}
 	

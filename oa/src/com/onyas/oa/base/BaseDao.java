@@ -2,6 +2,8 @@ package com.onyas.oa.base;
 
 import java.util.List;
 
+import com.onyas.oa.domain.PageBean;
+
 
 public interface BaseDao<T> {
 
@@ -40,4 +42,13 @@ public interface BaseDao<T> {
 	 * @return
 	 */
 	List<T> findAll();
+	
+	/**
+	 * 提取公共的分页方法
+	 * @param pageNum
+	 * @param hql
+	 * @param parameter
+	 * @return
+	 */
+	PageBean getPageBean(int pageNum, String hql, Object[] parameter);
 }

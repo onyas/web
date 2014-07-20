@@ -6,9 +6,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.onyas.oa.cfg.Configuration;
+import com.onyas.oa.domain.PageBean;
 
 //@Transactional中有这个注解可以被子类继承，所以加在父类上面，所有的方法都会加下事务，相反，如果只在子类加，父类方法不会有事务
 @SuppressWarnings("unchecked")
@@ -72,4 +76,32 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		return sessionFactory.getCurrentSession();
 	}
 
+	@Override
+	public PageBean getPageBean(int pageNum, String hql, Object[] parameter) {
+		System.out.println("===========================BaseDaoImpl.getPageBean()");
+		//读取配置文件得到每页多少条
+		int pageSize = Configuration.getPageSize();
+		
+		//获取分页数据
+		Query listQuery = getSession().createQuery(hql);
+		if(parameter!=null&& parameter.length>=1){
+			for(int i=0;i<parameter.length;i++){
+				listQuery.setParameter(i,parameter[i]);
+			}
+		}
+		listQuery.setFirstResult((pageNum-1)*pageSize);
+		listQuery.setMaxResults(pageSize);
+		List recordList=listQuery.list();;
+		
+		//查询总记录数
+		Query countQuery = getSession().createQuery("SELECT COUNT(*) "+hql);
+		if(parameter!=null&& parameter.length>=1){
+			for(int i=0;i<parameter.length;i++){
+				countQuery.setParameter(i,parameter[i]);
+			}
+		}
+		Long count=(Long)countQuery.uniqueResult();
+		
+		return new PageBean(recordList, count.intValue(), pageNum, pageSize);
+	}
 }

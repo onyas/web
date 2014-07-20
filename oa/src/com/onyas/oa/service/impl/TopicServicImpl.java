@@ -40,6 +40,7 @@ public class TopicServicImpl extends BaseDaoImpl<Topic> implements TopicService 
 		 getSession().update(forum);
 	 }
 
+	@Deprecated
 	@Override
 	public PageBean getPageBean(int pageNum, Forum forum) {
 		//读取配置文件得到每页多少条

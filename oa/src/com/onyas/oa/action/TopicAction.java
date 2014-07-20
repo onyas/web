@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import com.onyas.oa.base.BaseAction;
 import com.onyas.oa.domain.Forum;
 import com.onyas.oa.domain.PageBean;
-import com.onyas.oa.domain.Reply;
 import com.onyas.oa.domain.Topic;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -32,8 +31,14 @@ public class TopicAction extends BaseAction<Topic> {
 //		ActionContext.getContext().put("replyList", replyList);
 
 		//准备数据 	分页信息的数据
-		PageBean pageBean = replyService.getPageBean(pageNum,topic);
+//		PageBean pageBean = replyService.getPageBean(pageNum,topic);
+//		ActionContext.getContext().getValueStack().push(pageBean);
+		//准备数据 	分页信息的数据（用共用的方法）
+		String hql="FROM Reply r WHERE r.topic=? ORDER BY r.postTime ASC";
+		Object[] parameter = new Object[]{topic}; 
+		PageBean pageBean = replyService.getPageBean(pageNum, hql, parameter);
 		ActionContext.getContext().getValueStack().push(pageBean);
+		
 		return "show";
 	}
 

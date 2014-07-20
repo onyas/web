@@ -13,6 +13,7 @@ public interface ReplyService extends BaseDao<Reply> {
 	@Deprecated
 	List<Reply> findByTopic(Topic topic);
 
+	@Deprecated
 	/** 获取分页信息*/
 	PageBean getPageBean(int pageNum, Topic topic);
 
