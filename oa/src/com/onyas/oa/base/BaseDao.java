@@ -3,6 +3,7 @@ package com.onyas.oa.base;
 import java.util.List;
 
 import com.onyas.oa.domain.PageBean;
+import com.onyas.oa.utils.HqlHelper;
 
 
 public interface BaseDao<T> {
@@ -51,4 +52,15 @@ public interface BaseDao<T> {
 	 * @return
 	 */
 	PageBean getPageBean(int pageNum, String hql, Object[] parameter);
+
+
+	/**
+	 * 公共的查询分页信息的方法
+	 * 
+	 * @param pageNum
+	 * @param hqlHelper
+	 *            查询条件（HQL语句与参数列表）
+	 * @return
+	 */
+	PageBean getPageBean(int pageNum, HqlHelper hqlHelper);
 }

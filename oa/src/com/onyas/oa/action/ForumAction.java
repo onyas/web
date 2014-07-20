@@ -10,6 +10,7 @@ import com.onyas.oa.base.BaseAction;
 import com.onyas.oa.domain.Forum;
 import com.onyas.oa.domain.PageBean;
 import com.onyas.oa.domain.Topic;
+import com.onyas.oa.utils.HqlHelper;
 import com.opensymphony.xwork2.ActionContext;
 
 @Controller
@@ -62,31 +63,45 @@ public class ForumAction extends BaseAction<Forum> {
 		// PageBean pageBean = topicService.getPageBean(pageNum,hql,parameter);
 		// ActionContext.getContext().getValueStack().push(pageBean);
 
-		// 准备分页数据(提取公共的部分)+过滤条件
-		List<Object> parameters = new ArrayList<Object>();
-		String hql = "FROM Topic t WHERE t.forum=? ";
-		parameters.add(forum);
-
-		// >> 过滤条件
-		if (viewType == 1) { // 1表示只看精华帖
-			hql += " AND t.type=? ";
-			parameters.add(Topic.TYPE_BEST);
-		}
-
-		// >> 排序条件
-		if (orderBy == 0) { // 0 代表默认排序(所有置顶帖在前面，并按最后更新时间降序排列)
-			hql += "ORDER BY (CASE t.type WHEN 2 THEN 2 ELSE 0 END) DESC, t.lastUpdateTime DESC";
-		} else if (orderBy == 1) { // 1 代表只按最后更新时间排序
-			hql += "ORDER BY t.lastUpdateTime" + (asc ? " ASC" : " DESC");
-		} else if (orderBy == 2) { // 2 代表只按主题发表时间排序
-			hql += "ORDER BY t.postTime" + (asc ? " ASC" : " DESC");
-		} else if (orderBy == 3) { // 3 代表只按回复数量排序
-			hql += "ORDER BY t.replyCount" + (asc ? " ASC" : " DESC");
-		}
-
-		PageBean pageBean = replyService.getPageBean(pageNum, hql, parameters
-				.toArray());
-		ActionContext.getContext().getValueStack().push(pageBean);
+//		// 准备分页数据(提取公共的部分)+过滤条件
+//		List<Object> parameters = new ArrayList<Object>();
+//		String hql = "FROM Topic t WHERE t.forum=? ";
+//		parameters.add(forum);
+//
+//		// >> 过滤条件
+//		if (viewType == 1) { // 1表示只看精华帖
+//			hql += " AND t.type=? ";
+//			parameters.add(Topic.TYPE_BEST);
+//		}
+//
+//		// >> 排序条件
+//		if (orderBy == 0) { // 0 代表默认排序(所有置顶帖在前面，并按最后更新时间降序排列)
+//			hql += "ORDER BY (CASE t.type WHEN 2 THEN 2 ELSE 0 END) DESC, t.lastUpdateTime DESC";
+//		} else if (orderBy == 1) { // 1 代表只按最后更新时间排序
+//			hql += "ORDER BY t.lastUpdateTime" + (asc ? " ASC" : " DESC");
+//		} else if (orderBy == 2) { // 2 代表只按主题发表时间排序
+//			hql += "ORDER BY t.postTime" + (asc ? " ASC" : " DESC");
+//		} else if (orderBy == 3) { // 3 代表只按回复数量排序
+//			hql += "ORDER BY t.replyCount" + (asc ? " ASC" : " DESC");
+//		}
+//
+//		PageBean pageBean = replyService.getPageBean(pageNum, hql, parameters
+//				.toArray());
+//		ActionContext.getContext().getValueStack().push(pageBean);
+		
+		
+		// 最终版：
+		// 构建查询条件
+		new HqlHelper(Topic.class, "t")//
+				.addCondition("t.forum=?", forum)//
+				.addCondition(viewType == 1, "t.type=?", Topic.TYPE_BEST) // 1表示只看精华帖
+				.addOrder(orderBy == 1, "t.lastUpdateTime", asc) // 1 代表只按最后更新时间排序
+				.addOrder(orderBy == 2, "t.postTime", asc) // 2 代表只按主题发表时间排序
+				.addOrder(orderBy == 3, "t.replyCount", asc) // 3 代表只按回复数量排序
+				.addOrder(orderBy == 0, "(CASE t.type WHEN 2 THEN 2 ELSE 0 END)", false)//
+				.addOrder(orderBy == 0, "t.lastUpdateTime", false) // 0 代表默认排序(所有置顶帖在前面，并按最后更新时间降序排列)
+				.buildPageBeanForStruts2(pageNum, replyService);
+		
 
 		return "show";
 	}
