@@ -32,6 +32,8 @@
     </div>
 </div>
 
+<s:form action="forumAction_show?id=%{id}">
+
 <div id="MainArea">
 	<div id="PageHead"></div>
 	<center>
@@ -130,7 +132,7 @@
 		</div>
 	</center>
 </div>
-
+</s:form>
 <!--分页信息-->
 
 <%@ include file="/WEB-INF/jsp/public/pageView.jspf" %> 
