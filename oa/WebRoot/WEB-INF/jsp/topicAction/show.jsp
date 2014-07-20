@@ -161,13 +161,8 @@
 		</div>
 
 		<!--分页信息-->
-		<%@ include file="/WEB-INF/jsp/public/pageView.jspf" %> 
-		<script type="text/javascript">
-			function gotoPage( pageNum ){
-				window.location.href = "topicAction_show.action?id=${id}&pageNum=" + pageNum;
-			}
-		</script>
-		
+		<s:form action="topicAction_show?id=%{id}"> </s:form>
+		<%@ include file="/WEB-INF/jsp/public/pageView.jspf" %>
 
 		<div class="ForumPageTableBorder" style="margin-top: 25px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">

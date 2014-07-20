@@ -44,3 +44,13 @@
 		
 	</div>
 </div>
+
+
+<script type="text/javascript">
+	function gotoPage( pageNum ){
+		// window.location.href = "forumAction_show.action?id=${id}&pageNum=" + pageNum;
+		
+		$(document.forms[0]).append("<input type='hidden' name='pageNum' value='" + pageNum + "'/>");
+		document.forms[0].submit(); // 提交表单
+	}
+</script>
