@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 
 import com.onyas.oa.base.BaseAction;
 import com.onyas.oa.domain.Forum;
+import com.onyas.oa.domain.PageBean;
 import com.onyas.oa.domain.Topic;
 import com.opensymphony.xwork2.ActionContext;
 @Controller
@@ -27,8 +28,11 @@ public class ForumAction extends BaseAction<Forum>{
 		ActionContext.getContext().put("forum",forum);
 		
 		//准备数据:topicList
-		List<Topic> topicList = topicService.findByForum(forum);
-		ActionContext.getContext().put("topicList", topicList);
+//		List<Topic> topicList = topicService.findByForum(forum);
+//		ActionContext.getContext().put("topicList", topicList);
+		//准备分页数据
+		PageBean pageBean = topicService.getPageBean(pageNum,forum);
+		ActionContext.getContext().getValueStack().push(pageBean);
 		return "show";
 	}
 	

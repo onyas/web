@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.onyas.oa.base.BaseDaoImpl;
+import com.onyas.oa.cfg.Configuration;
 import com.onyas.oa.domain.Forum;
+import com.onyas.oa.domain.PageBean;
 import com.onyas.oa.domain.Topic;
 import com.onyas.oa.service.TopicService;
 
@@ -16,7 +18,6 @@ public class TopicServicImpl extends BaseDaoImpl<Topic> implements TopicService 
 	@Override
 	public List<Topic> findByForum(Forum forum) {
 		return getSession()
-		//TODO:排序:所有置顶贴都在最上面，然后把最新状态的主题显示到前面
 		.createQuery("FROM Topic t WHERE t.forum=? ORDER BY (CASE t.type WHEN 2 THEN 2 ELSE 0 END ) DESC,t.lastUpdateTime DESC")
 		.setParameter(0, forum)
 		.list();
@@ -38,5 +39,27 @@ public class TopicServicImpl extends BaseDaoImpl<Topic> implements TopicService 
 		 forum.setLastTopic(topic);//设置最后发表的主题
 		 getSession().update(forum);
 	 }
+
+	@Override
+	public PageBean getPageBean(int pageNum, Forum forum) {
+		//读取配置文件得到每页多少条
+		int pageSize = Configuration.getPageSize();
+		
+		//获取分页数据
+		List recordList=getSession()
+		.createQuery("FROM Topic t WHERE t.forum=? ORDER BY (CASE t.type WHEN 2 THEN 2 ELSE 0 END ) DESC,t.lastUpdateTime DESC")
+		.setParameter(0, forum)
+		.setFirstResult((pageNum-1)*pageSize)
+		.setMaxResults(pageSize)
+		.list();;
+		
+		//查询总记录数
+		Long count=(Long) getSession()
+		.createQuery("SELECT COUNT(*) FROM Topic t WHERE t.forum=?")
+		.setParameter(0, forum)
+		.uniqueResult();
+		
+		return new PageBean(recordList, count.intValue(), pageNum, pageSize);
+	}
 	
 }

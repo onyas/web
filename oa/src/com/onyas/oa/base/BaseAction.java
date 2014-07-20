@@ -53,4 +53,16 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 	protected User getCurrentUser(){
 		return (User) ActionContext.getContext().getSession().get("user");
 	}
+
+	protected int pageNum=1;//没有传递时默认为1
+	
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+	
+
 }

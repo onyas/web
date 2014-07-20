@@ -19,7 +19,7 @@ import com.opensymphony.xwork2.ActionContext;
 public class TopicAction extends BaseAction<Topic> {
 
 	private Long forumId;
-	private int pageNum=1;//没有传递时默认为1
+	
 	
 	/** 显示单个主题(主贴加回贴列表) */
 	public String show() throws Exception {
@@ -78,12 +78,4 @@ public class TopicAction extends BaseAction<Topic> {
 		this.forumId = forumId;
 	}
 
-	public int getPageNum() {
-		return pageNum;
-	}
-
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
-	}
-	
 }
