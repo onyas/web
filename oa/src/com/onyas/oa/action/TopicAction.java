@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import com.onyas.oa.base.BaseAction;
 import com.onyas.oa.domain.Forum;
+import com.onyas.oa.domain.PageBean;
 import com.onyas.oa.domain.Reply;
 import com.onyas.oa.domain.Topic;
 import com.opensymphony.xwork2.ActionContext;
@@ -18,6 +19,7 @@ import com.opensymphony.xwork2.ActionContext;
 public class TopicAction extends BaseAction<Topic> {
 
 	private Long forumId;
+	private int pageNum=1;//没有传递时默认为1
 	
 	/** 显示单个主题(主贴加回贴列表) */
 	public String show() throws Exception {
@@ -26,8 +28,12 @@ public class TopicAction extends BaseAction<Topic> {
 		ActionContext.getContext().put("topic", topic);
 		
 		//准备数据  replyList
-		List<Reply> replyList = replyService.findByTopic(topic);
-		ActionContext.getContext().put("replyList", replyList);
+//		List<Reply> replyList = replyService.findByTopic(topic);
+//		ActionContext.getContext().put("replyList", replyList);
+
+		//准备数据 	分页信息的数据
+		PageBean pageBean = replyService.getPageBean(pageNum,topic);
+		ActionContext.getContext().getValueStack().push(pageBean);
 		return "show";
 	}
 
@@ -71,4 +77,13 @@ public class TopicAction extends BaseAction<Topic> {
 	public void setForumId(Long forumId) {
 		this.forumId = forumId;
 	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+	
 }

@@ -109,7 +109,7 @@
 
 
 			<!-- ~~~~~~~~~~~~~~~ 显示回复列表 ~~~~~~~~~~~~~~~ -->
-			<s:iterator value="replyList" status="status"> 
+			<s:iterator value="recordList" status="status"> 
 			<div class="ListArea template">
 				<table border="0" cellpadding="0" cellspacing="1" width="100%">
 					<tr>
@@ -161,7 +161,45 @@
 		</div>
 
 		<!--分页信息-->
-		<%-- <%@ include file="/WEB-INF/jsp/public/pageView.jspf" %> --%>
+		<div id=PageSelectorBar>
+			<div id=PageSelectorMemo>
+				页次：${currentPage}/${pageCount}页 &nbsp;
+				每页显示：${pageSize }条 &nbsp;
+				总记录数：${recordCount }条
+			</div>
+			<div id=PageSelectorSelectorArea>
+			
+				<a href="javascript: gotoPage(1)" title="首页" style="cursor: hand;">
+					<img src="${pageContext.request.contextPath}/style/blue/images/pageSelector/firstPage.png"/>
+				</a>
+				
+				<s:iterator begin="%{beginPageIndex}" end="%{endPageIndex}" var="num">
+					<s:if test="currentPage == #num"><%-- 当前页 --%>
+						<span class="PageSelectorNum PageSelectorSelected">${num}</span>
+					</s:if>
+					<s:else><%-- 非当前页 --%>
+						<span class="PageSelectorNum" style="cursor: hand;" onClick="gotoPage(${num});">${num}</span>
+					</s:else>
+				</s:iterator>
+				
+				<a href="javascript: gotoPage(${pageCount})" title="尾页" style="cursor: hand;">
+					<img src="${pageContext.request.contextPath}/style/blue/images/pageSelector/lastPage.png"/>
+				</a>
+				
+				转到：
+				<select id="pn" onchange="gotoPage(this.value)">
+					<s:iterator begin="1" end="%{pageCount}" var="num">
+						<option value="${num}">${num}</option>					
+					</s:iterator>
+				</select>		
+				<script type="text/javascript">
+					// 回显页码
+					$("#pn").val(${currentPage});
+				</script>
+				
+			</div>
+		</div>
+		
 		<script type="text/javascript">
 			function gotoPage( pageNum ){
 				window.location.href = "topicAction_show.action?id=${id}&pageNum=" + pageNum;

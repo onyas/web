@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.onyas.oa.base.BaseDaoImpl;
+import com.onyas.oa.cfg.Configuration;
 import com.onyas.oa.domain.Forum;
+import com.onyas.oa.domain.PageBean;
 import com.onyas.oa.domain.Reply;
 import com.onyas.oa.domain.Topic;
 import com.onyas.oa.service.ReplyService;
@@ -38,6 +40,28 @@ public class ReplyServicImpl extends BaseDaoImpl<Reply> implements ReplyService{
 		
 		getSession().update(topic);
 		getSession().update(forum);
+	}
+
+	@Override
+	public PageBean getPageBean(int pageNum, Topic topic) {
+		//读取配置文件得到每页多少条
+		int pageSize = Configuration.getPageSize();
+		
+		//获取分页数据
+		List recordList=getSession()
+		.createQuery("FROM Reply r WHERE r.topic=? ORDER BY r.postTime ASC")
+		.setParameter(0,topic)
+		.setFirstResult((pageNum-1)*pageSize)
+		.setMaxResults(pageSize)
+		.list();;
+		
+		//查询总记录数
+		Long count=(Long) getSession().
+		createQuery("SELECT COUNT(*) FROM Reply r where r.topic=?")
+		.setParameter(0,topic)
+		.uniqueResult();
+		
+		return new PageBean(recordList, count.intValue(), pageNum, pageSize);
 	}
 	
 }
