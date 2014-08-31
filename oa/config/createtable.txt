@@ -1,0 +1,10 @@
+
+create table JBPM4_EXECUTION (DBID_ bigint not null, CLASS_ varchar(255) not null, DBVERSION_ integer not null, ACTIVITYNAME_ varchar(255), PROCDEFID_ varchar(255), HASVARS_ bit, NAME_ varchar(255), KEY_ varchar(255), ID_ varchar(191) unique, STATE_ varchar(255), SUSPHISTSTATE_ varchar(255), PRIORITY_ integer, HISACTINST_ bigint, PARENT_ bigint, INSTANCE_ bigint, SUPEREXEC_ bigint, SUBPROCINST_ bigint, PARENT_IDX_ integer, primary key (DBID_));
+create table JBPM4_PROPERTY (KEY_  varchar(191) not null, VERSION_  integer not null, VALUE_  varchar(255), primary key (KEY_));
+alter table JBPM4_EXECUTION add index FK_EXEC_SUBPI (SUBPROCINST_), add constraint FK_EXEC_SUBPI foreign key (SUBPROCINST_) references JBPM4_EXECUTION (DBID_);
+alter table JBPM4_EXECUTION add index FK_EXEC_INSTANCE (INSTANCE_), add constraint FK_EXEC_INSTANCE foreign key (INSTANCE_) references JBPM4_EXECUTION (DBID_);
+alter table JBPM4_EXECUTION add index FK_EXEC_SUPEREXEC (SUPEREXEC_), add constraint FK_EXEC_SUPEREXEC foreign key (SUPEREXEC_) references JBPM4_EXECUTION (DBID_);
+alter table JBPM4_EXECUTION add index FK_EXEC_PARENT (PARENT_), add constraint FK_EXEC_PARENT foreign key (PARENT_) references JBPM4_EXECUTION (DBID_);
+alter table JBPM4_SWIMLANE add index FK_SWIMLANE_EXEC (EXECUTION_), add constraint FK_SWIMLANE_EXEC foreign key (EXECUTION_) references JBPM4_EXECUTION (DBID_);
+alter table JBPM4_VARIABLE add index FK_VAR_EXESYS (EXESYS_), add constraint FK_VAR_EXESYS foreign key (EXESYS_) references JBPM4_EXECUTION (DBID_);
+alter table JBPM4_VARIABLE add index FK_VAR_EXECUTION (EXECUTION_), add constraint FK_VAR_EXECUTION foreign key (EXECUTION_) references JBPM4_EXECUTION (DBID_);

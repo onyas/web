@@ -11,9 +11,9 @@
 
 	<!-- 自动扫描与装配bean -->
 	<context:component-scan base-package="com.onyas.oa"></context:component-scan>
-	
+
 	<!-- 加载外部的配置文件 -->
-	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<context:property-placeholder location="classpath:jdbc.properties" />
 
 
 	<!-- 配置数据库连接池(c3p0) -->
@@ -32,18 +32,29 @@
 		<property name="maxStatementsPerConnection" value="5"></property>
 		<property name="maxIdleTime" value="20"></property>
 	</bean>
-	
-	
+
+
 	<!-- 配置SessionFactory -->
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
 	</bean>
-	
-	
+
+
 	<!-- 配置声明式事务管理 (采用基于注解的方式)-->
-	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+
+	<!-- 配置ProcessEngine -->
+	<bean id="springHelper" class="org.jbpm.pvm.internal.processengine.SpringHelper">
+		<property name="jbpmCfg" value="jbpm.cfg.xml"></property>
+	</bean>
+	<bean id="processEngine" factory-bean="springHelper"
+		factory-method="createProcessEngine" />
 </beans>
