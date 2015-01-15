@@ -1,0 +1,1 @@
+1、配置tomcat的启动参数-Dsolr.solr.home=F:\OpenSource\Java\lucene\solr-4.6.0\example\solr
