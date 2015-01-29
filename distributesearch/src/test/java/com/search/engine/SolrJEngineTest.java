@@ -3,10 +3,9 @@ package com.search.engine;
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
 import org.apache.solr.common.cloud.ClusterState;
 import org.apache.solr.common.cloud.ZkStateReader;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.opensymphony.xwork2.interceptor.annotations.After;
 
 public class SolrJEngineTest {
 
