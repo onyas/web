@@ -1,0 +1,20 @@
+*{padding:0px; margin:0px;}
+body{background:#fff;}
+a{text-decoration:none; color:#000;}
+a:hover{text-decoration:underline; color:#000;}
+#page{width:1024px; margin:0 auto;}
+#banner{width:1024px; height:2px; background:url(../images/banner.png) no-repeat; overflow:hidden; }
+#auto_message{width:1024px; height:145px; background:#f5f5f5; border-bottom:1px solid #e4eaea; overflow:hidden;}
+.auto_message_con{width:1024px; height:26px; margin-top:18px; }
+.con_title{width:80px; height:26px; line-height:26px; font-size:12px; float:left; margin-left:57px;}
+.con_search{width:748px; height:26px; background:url(../images/search_input.png) no-repeat; float:left; overflow:hidden; }
+.con_time{width:748px; height:26px; float:left; overflow:hidden; }
+.con_time select{float:left; width:100px; margin-top:5px; }
+.con_time input{float:left; margin:2px 0 0 5px; width:50px; texr-align:center;height:25px; }
+.con_search input{background:none; border:none; height:26px; line-height:26px; margin:0 0 0 10px; width:715px;  float:left;}
+.auto_message_con img{margin-top:1px; float:left;}
+#mainbody{width:1024px; height:auto;  overflow-x:hidden; overflow-y:auto;}
+ul{margin:0px; padding:0px; list-style:none;}
+ul li{/*height:35px;*/ line-height:25px; font-size:12px; padding-left:60px;}
+.even{background:#e5e5e5;}
+#footer{width:1024px; height:24px; background:url(../images/footer.png) repeat-x; font-size:12px; line-height:24px; text-align:center; color:#fff; overflow:hidden;}

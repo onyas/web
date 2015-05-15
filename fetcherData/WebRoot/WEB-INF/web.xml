@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_4.xsd">
+  <servlet>
+	    <servlet-name>url</servlet-name>
+	    <servlet-class>com.link.url.UrlServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>url</servlet-name>
+	    <url-pattern>/url</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>setinterval</servlet-name>
+	    <servlet-class>com.link.url.IntervalServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>setinterval</servlet-name>
+	    <url-pattern>/interval</url-pattern>
+	</servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
