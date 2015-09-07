@@ -2,10 +2,15 @@ package com.hdhd.search;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.fastjson.JSONObject;
 import com.google.api.client.http.GenericUrl;
 
 public class SolrEngine {
+
+	private static final Logger log = LoggerFactory.getLogger(SolrEngine.class);
 
 	// 主机名+应用名
 	public static final String host = "http://127.0.0.1:8081/search/";
@@ -32,6 +37,8 @@ public class SolrEngine {
 
 		int responseCode = 0;
 		JSONObject result = new JSONObject();
+		log.info("SolrEngine requestUrl::{},data::{}", requestUrl.toString(),
+				data.toJSONString());
 		try {
 			System.out.println(requestUrl.toString());
 			GenericUrl url = new GenericUrl(requestUrl.toString());
@@ -61,7 +68,7 @@ public class SolrEngine {
 		requestUrl.append(coreName);
 		requestUrl.append("/select?");
 		requestUrl.append(param);
-
+		log.info("SolrEngine requestUrl::{}", requestUrl.toString());
 		GenericUrl url = new GenericUrl(requestUrl.toString());
 		JSONObject result = new JSONObject();
 		try {

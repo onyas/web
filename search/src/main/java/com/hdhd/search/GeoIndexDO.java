@@ -8,12 +8,13 @@ public class GeoIndexDO implements Serializable {
 	private static final long serialVersionUID = -6533271474450188855L;
 	private String sid;
 	private String id;
-	private String openid;
-	private String username;
+	private String openid;//
+	private String username;//用户名
 	private Date createtime;
-	private String store;
+	private String store;//叮当设置的经纬度
+	private String lastAcceess;//上次下单的经纬度
 
-	private String option;
+	private String option;//是建索引还是删除索引
 
 	public String getSid() {
 		return sid;
@@ -69,6 +70,14 @@ public class GeoIndexDO implements Serializable {
 
 	public void setOption(String option) {
 		this.option = option;
+	}
+
+	public String getLastAcceess() {
+		return lastAcceess;
+	}
+
+	public void setLastAcceess(String lastAcceess) {
+		this.lastAcceess = lastAcceess;
 	}
 
 }

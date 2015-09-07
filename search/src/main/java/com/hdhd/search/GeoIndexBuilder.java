@@ -27,6 +27,7 @@ public class GeoIndexBuilder {
 		fields.put("openid", geoIndex.getOpenid());
 		fields.put("username", geoIndex.getUsername());
 		fields.put("store", geoIndex.getStore());
+		fields.put("buyer", geoIndex.getLastAcceess());
 		fields.put("createtime", geoIndex.getCreatetime());
 		doc.put("doc", fields);
 		data.put(geoIndex.getOption(), doc);

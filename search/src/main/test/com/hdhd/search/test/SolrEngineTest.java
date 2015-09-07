@@ -28,7 +28,7 @@ public class SolrEngineTest {
 	 */
 	@Test
 	public void testCoreStatus() throws IOException {
-//		solrEngine.coreStatus(coreName);
+		// solrEngine.coreStatus(coreName);
 	}
 
 	/***
@@ -42,7 +42,7 @@ public class SolrEngineTest {
 		param.put("numShards", "1");
 		param.put("replicationFactor", "1");
 		param.put("collection.configName", "clusterconf");
-//		solrEngine.createCore(coreName, param);
+		// solrEngine.createCore(coreName, param);
 	}
 
 	/***
@@ -50,7 +50,7 @@ public class SolrEngineTest {
 	 */
 	@Test
 	public void testDeleteCore() {
-//		solrEngine.deleteCore(coreName);
+		// solrEngine.deleteCore(coreName);
 	}
 
 	/***
@@ -60,7 +60,7 @@ public class SolrEngineTest {
 	public void testAddIndex() {
 		// 新增索引格式
 		String data = "{\"add\":{\"doc\":{\"id_key\":\"addf\",\"title_text\":\"test1\",\"content_text\":\"test1\"}}}";
-//		solrEngine.updateIndex(coreName, data);
+		// solrEngine.updateIndex(coreName, data);
 	}
 
 	/***
@@ -70,7 +70,7 @@ public class SolrEngineTest {
 	public void testUpdateIndex() {
 		// 更新索引格式
 		String data = "{\"add\":{\"doc\":{\"id_key\":\"addf\",\"title_text\":\"test1\",\"content_text\":\"test2\"}}}";
-//		solrEngine.updateIndex(coreName, data);
+		// solrEngine.updateIndex(coreName, data);
 	}
 
 	/***
@@ -80,19 +80,30 @@ public class SolrEngineTest {
 	public void testDeleteIndexById() {
 		// 删除索引格式
 		String data = "{\"delete\":{\"id\":\"addf\"}}";
-//		solrEngine.updateIndex(coreName, data);
+		// solrEngine.updateIndex(coreName, data);
 	}
-
 
 	/***
 	 * PASS 测试搜索
 	 */
 	@Test
-	public void testSearchByHttpHelper() {
+	public void testSearchDingdang() {
 		// String q = "q=*:*&wt=json";
 		// String q =
 		// "q=*:*&wt=json&fq={!geofilt%20pt=39.991861,116.424724%20sfield=store%20d=5}";
-		String q = "q=*:*&wt=json&fq={!geofilt}&pt=39.991861,116.424724&sfield=store&d=5&sort=geodist()%20asc";//搜索附近的人
+		String q = "q=*:*&wt=json&fq={!geofilt}&pt=39.991861,116.424724&sfield=store&d=5&sort=geodist()%20asc";// 搜索附近的人
+		solrEngine.searchByHttpHelper(coreName, q);
+	}
+
+	/***
+	 * PASS 测试搜索
+	 */
+	@Test
+	public void testSearchBuyer() {
+		// String q = "q=*:*&wt=json";
+		// String q =
+		// "q=*:*&wt=json&fq={!geofilt%20pt=39.991861,116.424724%20sfield=store%20d=5}";
+		String q = "q=*:*&wt=json&fq={!geofilt}&pt=39.991861,116.424724&sfield=buyer&d=5&sort=geodist()%20asc";// 搜索附近的人
 		solrEngine.searchByHttpHelper(coreName, q);
 	}
 
@@ -102,22 +113,14 @@ public class SolrEngineTest {
 	@Test
 	public void testUpdateIndexByHttpHelper() {
 		// 更新索引格式
-		// JSONObject fields = new JSONObject();
-		// fields.put("sid", "99999999");
-		// fields.put("username", "test");
-		// fields.put("id", "999");
-		// JSONObject doc = new JSONObject();
-		// doc.put("doc", fields);
-		// JSONObject data = new JSONObject();
-		// data.put("add", doc);
-		// System.out.println(data.toJSONString());
 		GeoIndexDO geoIndex = new GeoIndexDO();
 		geoIndex.setSid("88888887");
 		geoIndex.setId("888");
-		geoIndex.setUsername("89566");
+		geoIndex.setUsername("99999999");
 		geoIndex.setOption("add");
+		geoIndex.setLastAcceess("39.991861,116.424724");
+
 		JSONObject data = new GeoIndexBuilder(geoIndex).createJSONOjbect();
-		System.out.println(data.toJSONString());
 		solrEngine.updateIndexByHttpHelper(coreName, data);
 	}
 
