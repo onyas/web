@@ -1,4 +1,4 @@
-package com.hdhd.search;
+package com.search.service;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.hdhd.search.SolrJEngine;
+import com.search.service.SolrJEngine;
 
 public class SolrJEngineTest {
 

@@ -1,4 +1,4 @@
-package com.hdhd.search;
+package com.search.service;
 
 import java.io.IOException;
 
@@ -12,8 +12,11 @@ public class SolrEngine {
 
 	private static final Logger log = LoggerFactory.getLogger(SolrEngine.class);
 
-	// 主机名+应用名
-	public static final String host = "http://127.0.0.1:8081/search/";
+	private String host;
+
+	public SolrEngine(String host) {
+		this.host = host;
+	}
 
 	/**
 	 * 对指定核更新索引(包括 新增，更新，删除索引)
@@ -28,7 +31,7 @@ public class SolrEngine {
 	 *            删除索引:"{\"delete\":{\"id\":\"addf\"}}"
 	 * @return responseCode 200为成功，其它为失败
 	 */
-	public int updateIndexByHttpHelper(String coreName, JSONObject data) {
+	public int updateIndex(String coreName, JSONObject data) {
 		// 构造请求url
 		StringBuffer requestUrl = new StringBuffer();
 		requestUrl.append(host);
@@ -61,7 +64,7 @@ public class SolrEngine {
 	 * @return 返回值可以是json或xml格式的数据，根据查询时指定的wt选项来定
 	 * @throws IOException
 	 */
-	public String searchByHttpHelper(String coreName, String param) {
+	public String search(String coreName, String param) {
 		// 构造请求url
 		StringBuffer requestUrl = new StringBuffer();
 		requestUrl.append(host);

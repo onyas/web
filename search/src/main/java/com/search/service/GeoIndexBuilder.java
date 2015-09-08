@@ -1,4 +1,4 @@
-package com.hdhd.search;
+package com.search.service;
 
 import org.apache.commons.lang.Validate;
 

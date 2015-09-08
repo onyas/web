@@ -7,9 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hdhd.search.GeoIndexBuilder;
-import com.hdhd.search.GeoIndexDO;
-import com.hdhd.search.SolrEngine;
+import com.search.service.GeoIndexBuilder;
+import com.search.service.GeoIndexDO;
+import com.search.service.SolrEngine;
 
 public class SolrEngineTest {
 
@@ -18,7 +18,7 @@ public class SolrEngineTest {
 
 	@Before
 	public void init() {
-		solrEngine = new SolrEngine();
+		solrEngine = new SolrEngine("http://127.0.0.1:8081/search/");
 	}
 
 	/***
@@ -98,7 +98,7 @@ public class SolrEngineTest {
 		// "q={!func}geodist()&wt=json&fq={!geofilt}&pt=39.991861,116.424724&sfield=store&d=5&sort=score+asc";//
 		// 搜索附近的人,通过距离排序
 		String q = "q=*:*&wt=json&fq={!geofilt}&pt=39.991861,116.424724&sfield=store&d=0.5&sort=geodist()%20asc&fl=_dist_:geodist(),*";// 搜索附近的人，通过fl同时返回距离
-		solrEngine.searchByHttpHelper(coreName, q);
+		solrEngine.search(coreName, q);
 	}
 
 	/***
@@ -110,7 +110,7 @@ public class SolrEngineTest {
 		// String q =
 		// "q=*:*&wt=json&fq={!geofilt%20pt=39.991861,116.424724%20sfield=store%20d=5}";
 		String q = "q=*:*&wt=json&fq={!geofilt}&pt=39.991861,116.424724&sfield=buyer&d=5&sort=geodist()%20asc";// 搜索附近的人
-		solrEngine.searchByHttpHelper(coreName, q);
+		solrEngine.search(coreName, q);
 	}
 
 	/***
@@ -127,7 +127,7 @@ public class SolrEngineTest {
 		geoIndex.setLastAcceess("39.991861,116.424724");
 
 		JSONObject data = new GeoIndexBuilder(geoIndex).createJSONOjbect();
-		solrEngine.updateIndexByHttpHelper(coreName, data);
+		solrEngine.updateIndex(coreName, data);
 	}
 
 }

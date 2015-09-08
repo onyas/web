@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+	http://code.alibabatech.com/schema/dubbo  http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	">
+
+
+	<bean id="searchNotifyHandler" class="com.search.notify.SearchNotifyHandler">
+		<property name="requestMap">
+			<map>
+				<entry key="com.search.protocol.GeoIndexDO" value-ref="geoSearchDispatcher"></entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="searchNettyServer" class="com.search.notify.SearchNettyServer">
+		<constructor-arg index="0" value="127.0.0.1" />
+		<constructor-arg index="1" value="6656" />
+	</bean>
+
+	<bean id="geoSearchDispatcher" class="com.dd.request.GeoSearchDispatcher"></bean>
+
+	<bean id="solrEngine" class="com.hdhd.service.SolrEngine">
+		<constructor-arg index="0" value="${solr.request.url}" />
+	</bean>
+
+
+</beans>
