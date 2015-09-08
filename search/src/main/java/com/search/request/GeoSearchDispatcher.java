@@ -11,7 +11,6 @@ public class GeoSearchDispatcher implements Dispatcher {
 	@Autowired
 	private SolrEngine solrEngine;
 
-	@Override
 	public Object process(Object message) {
 		GeoIndexDO geoIndex = (GeoIndexDO) message;
 		String method = geoIndex.getOption();

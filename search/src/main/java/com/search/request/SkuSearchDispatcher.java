@@ -9,9 +9,9 @@ public class SkuSearchDispatcher implements Dispatcher {
 	@Autowired
 	private SolrEngine solrEngine;
 
-	@Override
 	public Object process(Object message) {
 		return null;
 	}
+
 
 }

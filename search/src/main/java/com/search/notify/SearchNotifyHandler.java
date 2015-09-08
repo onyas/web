@@ -20,7 +20,6 @@ public class SearchNotifyHandler implements Replier<Object> {
 		this.requestMap = requestMap;
 	}
 
-	@Override
 	public Object reply(ExchangeChannel channel, Object state)
 			throws RemotingException {
 		try {

@@ -22,7 +22,7 @@
 		<constructor-arg index="1" value="6656" />
 	</bean>
 
-	<bean id="geoSearchDispatcher" class="com.dd.request.GeoSearchDispatcher"></bean>
+	<bean id="geoSearchDispatcher" class="com.search.request.GeoSearchDispatcher"></bean>
 
 	<bean id="solrEngine" class="com.hdhd.service.SolrEngine">
 		<constructor-arg index="0" value="${solr.request.url}" />
