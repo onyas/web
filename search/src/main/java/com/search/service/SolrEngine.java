@@ -64,7 +64,7 @@ public class SolrEngine {
 	 * @return 返回值可以是json或xml格式的数据，根据查询时指定的wt选项来定
 	 * @throws IOException
 	 */
-	public String search(String coreName, String param) {
+	public JSONObject search(String coreName, String param) {
 		// 构造请求url
 		StringBuffer requestUrl = new StringBuffer();
 		requestUrl.append(host);
@@ -75,11 +75,11 @@ public class SolrEngine {
 		GenericUrl url = new GenericUrl(requestUrl.toString());
 		JSONObject result = new JSONObject();
 		try {
-			result = HttpHelper.requestGetJSON(url, result, 6000);
+			result = HttpHelper.requestGetJSON(url, 6000);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return result.toJSONString();
+		return result;
 	}
 
 }

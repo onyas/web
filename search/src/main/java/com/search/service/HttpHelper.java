@@ -63,8 +63,8 @@ public class HttpHelper {
 		return null;
 	}
 
-	public static JSONObject requestGetJSON(GenericUrl genericURL,
-			JSONObject data, long timeout) throws IOException {
+	public static JSONObject requestGetJSON(GenericUrl genericURL, long timeout)
+			throws IOException {
 
 		HttpRequest httpRequest = requestFactory.buildGetRequest(genericURL);
 		Future<HttpResponse> future = httpRequest.executeAsync();

@@ -5,14 +5,18 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.search.service.GeoIndexBuilder;
 import com.search.service.GeoIndexDO;
 import com.search.service.SolrEngine;
 
 public class SolrEngineTest {
-
+	private static final Logger log = LoggerFactory
+			.getLogger(SolrEngineTest.class);
 	private String coreName = "db";
 	private SolrEngine solrEngine;
 
@@ -97,8 +101,35 @@ public class SolrEngineTest {
 		// String q =
 		// "q={!func}geodist()&wt=json&fq={!geofilt}&pt=39.991861,116.424724&sfield=store&d=5&sort=score+asc";//
 		// 搜索附近的人,通过距离排序
-		String q = "q=*:*&wt=json&fq={!geofilt}&pt=39.991861,116.424724&sfield=store&d=0.5&sort=geodist()%20asc&fl=_dist_:geodist(),*";// 搜索附近的人，通过fl同时返回距离
-		solrEngine.search(coreName, q);
+		String q = "q=*:*&wt=json&start=0&rows=1000&fq={!geofilt}&pt=39.991861,116.424724&sfield=store&d=0.5&sort=geodist()%20asc&fl=distance:geodist(),*";// 搜索附近的人，通过fl同时返回距离
+		JSONObject searchResult = solrEngine.search(coreName, q);
+		if (searchResult.getIntValue("status") == 0) {
+			JSONObject responseData = (JSONObject) searchResult
+					.getJSONObject("response");
+			int numFound = responseData.getIntValue("numFound");
+			JSONArray docs = responseData.getJSONArray("docs");
+			log.info("testSearchDingdang numFound" + numFound + " docs"
+					+ docs.toJSONString());
+			JSONArray dingdang = new JSONArray();
+			if (docs != null && !docs.isEmpty()) {
+				int radius;
+				double distance;
+				for (int i = 0; i < docs.size(); i++) {
+					radius = ((JSONObject) docs.get(i)).getIntValue("radius");
+					distance = ((JSONObject) docs.get(i))
+							.getDoubleValue("distance");
+					if (distance * 1000 < radius) {
+						dingdang.add(docs.get(i));
+					}
+					log.info("radius::{} distance::{}", radius, distance);
+				}
+			}
+			log.info("dingdang.size::{} docs.size::{}", dingdang.size(),
+					docs.size());
+		} else {
+			// TODO error
+		}
+		System.out.println("test" + searchResult.toJSONString());
 	}
 
 	/***
