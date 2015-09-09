@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
-	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
-	http://code.alibabatech.com/schema/dubbo  http://code.alibabatech.com/schema/dubbo/dubbo.xsd
-	">
+           http://code.alibabatech.com/schema/dubbo     http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+           http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       ">
 
+	<context:property-placeholder location="classpath:config.properties" />
 
-	<bean id="searchNotifyHandler" class="com.search.notify.SearchNotifyHandler">
+	<bean id="propertiesLoader" class="com.search.util.PropertiesResourceLoader"
+		init-method="postInit" />
+
+	<bean id="geoSearchDispatcher" class="com.search.request.GeoSearchDispatcher">
+		<property name="solrEngine" ref="solrEngine"></property>
+	</bean>
+
+	<bean id="searchNotifyHandler" class="com.search.notify.SearchNotifyHandler"
+		destroy-method="destroy">
 		<property name="requestMap">
 			<map>
 				<entry key="com.search.protocol.GeoIndexDO" value-ref="geoSearchDispatcher"></entry>
@@ -17,14 +27,14 @@
 		</property>
 	</bean>
 
-	<bean id="searchNettyServer" class="com.search.notify.SearchNettyServer">
+	<bean id="searchNettyServer" class="com.search.notify.SearchNettyServer"
+		init-method="initServer" destroy-method="destroy">
 		<constructor-arg index="0" value="127.0.0.1" />
 		<constructor-arg index="1" value="6656" />
+		<property name="notifyHandler" ref="searchNotifyHandler"></property>
 	</bean>
 
-	<bean id="geoSearchDispatcher" class="com.search.request.GeoSearchDispatcher"></bean>
-
-	<bean id="solrEngine" class="com.hdhd.service.SolrEngine">
+	<bean id="solrEngine" class="com.search.service.SolrEngine">
 		<constructor-arg index="0" value="${solr.request.url}" />
 	</bean>
 

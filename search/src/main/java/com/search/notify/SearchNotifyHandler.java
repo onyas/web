@@ -24,7 +24,7 @@ public class SearchNotifyHandler implements Replier<Object> {
 			throws RemotingException {
 		try {
 			log.info("object class :: {}", state.getClass().getCanonicalName());
-
+			log.info("requestMap::{}",requestMap);
 			Dispatcher dispatcher = requestMap.get(state.getClass()
 					.getCanonicalName());
 			if (dispatcher != null) {

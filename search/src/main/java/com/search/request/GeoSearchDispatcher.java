@@ -7,9 +7,8 @@ import com.search.protocol.GeoIndexDO;
 import com.search.service.SolrEngine;
 
 public class GeoSearchDispatcher implements Dispatcher {
-	String q = "q=*:*&wt=json&start=0&rows=1000&fq={!geofilt}&pt=%s&sfield=store&d=0.5&sort=geodist()%20asc&fl=distance:geodist(),*";// 搜索附近的人，通过fl同时返回距离
+	String q = "q=*:*&wt=json&start=0&rows=1000&fq={!geofilt}&pt=%s&sfield=store&d=0.5&sort=geodist()%%20asc&fl=distance:geodist(),*";// 搜索附近的人，通过fl同时返回距离
 
-	@Autowired
 	private SolrEngine solrEngine;
 
 	public Object process(Object message) {
@@ -19,4 +18,9 @@ public class GeoSearchDispatcher implements Dispatcher {
 		return solrEngine.search(Constant.GEOCORENAME, q);
 	}
 
+	public void setSolrEngine(SolrEngine solrEngine) {
+		this.solrEngine = solrEngine;
+	}
+	
+	
 }
