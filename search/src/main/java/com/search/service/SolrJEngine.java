@@ -9,14 +9,21 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.apache.solr.client.solrj.impl.LBHttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.cloud.ClusterState;
 import org.apache.solr.common.cloud.ZkStateReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.search.util.ConfigProperties;
 
 public class SolrJEngine {
+	private static final Logger log = LoggerFactory
+			.getLogger(SolrJEngine.class);
 
 	private static CloudSolrServer cloudSolrServer;
 
@@ -24,7 +31,10 @@ public class SolrJEngine {
 			final String zkHost) {
 		if (cloudSolrServer == null) {
 			try {
-				cloudSolrServer = new CloudSolrServer(zkHost);
+				LBHttpSolrServer lbServer = new LBHttpSolrServer(
+						ConfigProperties
+								.getPropertiesArrayValue("solr.servers"));
+				cloudSolrServer = new CloudSolrServer(zkHost, lbServer);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -56,12 +66,12 @@ public class SolrJEngine {
 
 			solrServer.add(docs);
 		} catch (SolrServerException e) {
-			System.out.println("Add docs Exception !!!");
+			log.info("Add docs Exception !!!");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println("Unknowned Exception!!!!!");
+			log.info("Unknowned Exception!!!!!");
 			e.printStackTrace();
 		}
 	}
@@ -80,20 +90,19 @@ public class SolrJEngine {
 			QueryResponse response = solrServer.query(solrQuery);
 			SolrDocumentList docs = response.getResults();
 
-			System.out.println("文档个数：" + docs.getNumFound());
-			System.out.println("查询时间：" + response.getQTime());
+			log.info("文档个数：" + docs.getNumFound());
+			log.info("查询时间：" + response.getQTime());
 
 			for (SolrDocument doc : docs) {
 				String name = (String) doc.getFieldValue("name");
 				String id = (String) doc.getFieldValue("id");
-				System.out.println("id: " + id);
-				System.out.println("name: " + name);
-				System.out.println();
+				log.info("id: " + id);
+				log.info("name: " + name);
 			}
 		} catch (SolrServerException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println("Unknowned Exception!!!!");
+			log.info("Unknowned Exception!!!!");
 			e.printStackTrace();
 		}
 	}
@@ -114,44 +123,45 @@ public class SolrJEngine {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println("Unknowned Exception !!!!");
+			log.info("Unknowned Exception !!!!");
 			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) {
 		// TODO 修改相应的地址与端口
-		final String zkHost = "10.142.51.186:2181";
-		final String defaultCollection = "core_004";
+		final String zkHost = "127.0.0.1:2181";
+		final String defaultCollection = "db";
 		final int zkClientTimeout = 20000;
 		final int zkConnectTimeout = 1000;
 
-		CloudSolrServer cloudSolrServer = getCloudSolrServer(zkHost);
-		System.out.println("The Cloud SolrServer Instance has benn created!");
+		CloudSolrServer cloudSolrServer = getCloudSolrServer(ConfigProperties
+				.getPropertyValue("ZK_CONNECT"));
+		log.info("The Cloud SolrServer Instance has benn created!");
 
 		cloudSolrServer.setDefaultCollection(defaultCollection);
 		cloudSolrServer.setZkClientTimeout(zkClientTimeout);
 		cloudSolrServer.setZkConnectTimeout(zkConnectTimeout);
 
 		cloudSolrServer.connect();
-		System.out.println("The cloud Server has been connected !!!!");
+		log.info("The cloud Server has been connected !!!!");
 
 		ZkStateReader zkStateReader = cloudSolrServer.getZkStateReader();
 		ClusterState cloudState = zkStateReader.getClusterState();
-		System.out.println(cloudState);
+		log.info("cloudState::{}", cloudState);
 
 		// 测试实例！
-		System.out.println("测试添加index！！！");
+		log.info("测试添加index！！！");
 		// 添加index
 		SolrJEngine.addIndex(cloudSolrServer);
 
-		System.out.println("测试查询query！！！！");
+		log.info("测试查询query！！！！");
 		SolrJEngine.search(cloudSolrServer, "id:*");
 
-		System.out.println("测试删除！！！！");
+		log.info("测试删除！！！！");
 		// test.deleteAllIndex(cloudSolrServer);
 
-		System.out.println("删除所有文档后的查询结果：");
+		log.info("删除所有文档后的查询结果：");
 		// test.search(cloudSolrServer, "*:*");
 		// release the resource
 		cloudSolrServer.shutdown();
