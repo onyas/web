@@ -21,23 +21,23 @@ public class SolrJEngineTest {
 	public void init() {
 		// TODO 修改相应的地址与端口
 		final String zkHost = "127.0.0.1:2181";
-		final String defaultCollection = "core_004";
+		final String defaultCollection = "db";
 		final int zkClientTimeout = 20000;
 		final int zkConnectTimeout = 1000;
 
 		cloudSolrServer = SolrJEngine.getCloudSolrServer(zkHost);
-		System.out.println("The Cloud SolrServer Instance has benn created!");
+		log.info("The Cloud SolrServer Instance has benn created!");
 
 		cloudSolrServer.setDefaultCollection(defaultCollection);
 		cloudSolrServer.setZkClientTimeout(zkClientTimeout);
 		cloudSolrServer.setZkConnectTimeout(zkConnectTimeout);
 
 		cloudSolrServer.connect();
-		System.out.println("The cloud Server has been connected !!!!");
+		log.info("The cloud Server has been connected !!!!");
 
 		ZkStateReader zkStateReader = cloudSolrServer.getZkStateReader();
 		ClusterState cloudState = zkStateReader.getClusterState();
-		System.out.println(cloudState);
+		log.info("cloudState::{}",cloudState.toString());
 	}
 
 	@Test
