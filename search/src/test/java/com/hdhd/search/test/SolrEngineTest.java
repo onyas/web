@@ -68,13 +68,22 @@ public class SolrEngineTest {
 	}
 
 	/***
-	 * 更新指定ID的索引
+	 * 更新指定ID的索引,可以更新部分字段的值,有add,set,inc三个指令,具体可参考指南中的Updating Parts of Documents
 	 */
 	@Test
-	public void testUpdateIndex() {
-		// 更新索引格式
-		String data = "{\"add\":{\"doc\":{\"id_key\":\"addf\",\"title_text\":\"test1\",\"content_text\":\"test2\"}}}";
-		// solrEngine.updateIndex(coreName, data);
+	public void testAtomicUpdateIndex() {
+		// 更新索引格式 {"add":{"doc":{"sid":"1274651996619776","store":{"set":"39.991861,116.424724"}}}}
+		JSONObject jsondata = new JSONObject();
+		JSONObject store = new JSONObject();
+		store.put("set", "39.991861,116.424724");
+		jsondata.put("sid", "1274651996619776");
+		jsondata.put("store", store);
+		JSONObject data = new JSONObject();
+		JSONObject doc = new JSONObject();
+		doc.put("doc", jsondata);
+		data.put("add", doc);
+		log.info("data::{}", data.toJSONString());
+		solrEngine.updateIndex(coreName, data);
 	}
 
 	/***

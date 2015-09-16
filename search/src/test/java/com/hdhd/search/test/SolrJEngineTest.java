@@ -1,7 +1,6 @@
 package com.hdhd.search.test;
 
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
-import org.apache.solr.client.solrj.impl.LBHttpSolrServer;
 import org.apache.solr.common.cloud.ClusterState;
 import org.apache.solr.common.cloud.ZkStateReader;
 import org.junit.After;
@@ -43,20 +42,25 @@ public class SolrJEngineTest {
 
 	@Test
 	public void testAddIndex() throws Exception {
-		SolrJEngine.addIndex(cloudSolrServer);
+		SolrJEngine.addIndex();
 	}
 
 	@Test
 	public void testDeleteByQuery() throws Exception {
-		SolrJEngine.deleteIndexByQuery(cloudSolrServer, "*:*");
+//		SolrJEngine.deleteIndexByQuery(cloudSolrServer, "*:*");
 	}
 
 	@Test
 	public void testSearch() throws Exception {
 		//*:*&wt=json&start=0&rows=1000&fq={!geofilt}&pt=39.991861,116.424724&sfield=store&d=0.5&sort=geodist()%20asc&fl=distance:geodist(),*
-		SolrJEngine.search(cloudSolrServer, "*:*");
+		SolrJEngine.geoSearch();
 	}
 
+	@Test
+	public void testUpdateLocation() throws Exception {
+		SolrJEngine.updateLocation();
+	}
+	
 	@After
 	public void destroy() {
 		cloudSolrServer.shutdown();

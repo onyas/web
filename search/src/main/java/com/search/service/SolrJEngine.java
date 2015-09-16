@@ -3,6 +3,8 @@ package com.search.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -32,6 +34,7 @@ public class SolrJEngine {
 		if (cloudSolrServer == null) {
 			try {
 				cloudSolrServer = new CloudSolrServer(zkHost);
+				cloudSolrServer.setIdField("sid");// CloudSolrServer根据该字段来路由
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -44,7 +47,7 @@ public class SolrJEngine {
 	 * 
 	 * @param solrServer
 	 */
-	public static void addIndex(SolrServer solrServer) {
+	public static void addIndex() {
 		try {
 			SolrInputDocument doc1 = new SolrInputDocument();
 
@@ -61,14 +64,37 @@ public class SolrJEngine {
 			docs.add(doc1);
 			docs.add(doc2);
 
-			solrServer.add(docs);
+			cloudSolrServer.add(docs);
+			cloudSolrServer.commit();
 		} catch (SolrServerException e) {
-			log.info("Add docs Exception !!!");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			log.info("Unknowned Exception!!!!!");
+			e.printStackTrace();
+		}
+	}
+
+	/***
+	 * 更新地理位置
+	 * 
+	 * @param solrServer
+	 */
+	public static void updateLocation() {
+		try {
+			SolrInputDocument doc1 = new SolrInputDocument();
+			Map<String, String> partialUpdate = new HashMap<String, String>();
+			partialUpdate.put("set", "39.991861,116.424724");
+			doc1.addField("sid", "1273221244685312");
+			doc1.addField("store", partialUpdate);
+			cloudSolrServer.add(doc1);
+			cloudSolrServer.commit();
+			log.info("update success sid::{} store::{}");
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -80,7 +106,7 @@ public class SolrJEngine {
 	 * @param query
 	 *            查询参数,solr语法
 	 */
-	public static void search(SolrServer solrServer, String query) {
+	public static void geoSearch() {
 		SolrQuery solrQuery = new SolrQuery();
 		solrQuery.setQuery("*:*").setStart(0).setRows(100)
 				.addFilterQuery("{!geofilt}")
@@ -90,7 +116,8 @@ public class SolrJEngine {
 				.addSort("geodist()", SolrQuery.ORDER.asc);
 		solrQuery.setParam("shards.tolerant", true);
 		try {
-			QueryResponse response = solrServer.query(solrQuery, METHOD.POST);
+			QueryResponse response = cloudSolrServer.query(solrQuery,
+					METHOD.POST);
 			SolrDocumentList docs = response.getResults();
 
 			log.info("文档个数：" + docs.getNumFound());
@@ -100,9 +127,14 @@ public class SolrJEngine {
 				String username = (String) doc.getFieldValue("username");
 				String id = (String) doc.getFieldValue("id");
 				String sid = (String) doc.getFieldValue("sid");
+				String mobile = (String) doc.getFieldValue("mobile");
 				Double distance = (Double) doc.getFieldValue("distance");
-				log.info("id::{} sid::{} username::{} distance::{}", id, sid,
-						username, distance*1000);
+				String store = (String) doc.getFieldValue("store");
+				Integer radius = (Integer) doc.getFieldValue("radius");
+				log.info(
+						"id::{} sid::{} username::{} mobile::{} distance::{} store::{} radius::{}",
+						id, sid, username, mobile, distance * 1000, store,
+						radius);
 			}
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -157,10 +189,10 @@ public class SolrJEngine {
 		// 测试实例！
 		log.info("测试添加index！！！");
 		// 添加index
-		SolrJEngine.addIndex(cloudSolrServer);
+		SolrJEngine.addIndex();
 
 		log.info("测试查询query！！！！");
-		SolrJEngine.search(cloudSolrServer, "id:*");
+		SolrJEngine.geoSearch();
 
 		log.info("测试删除！！！！");
 		// test.deleteAllIndex(cloudSolrServer);
@@ -170,4 +202,5 @@ public class SolrJEngine {
 		// release the resource
 		cloudSolrServer.shutdown();
 	}
+
 }

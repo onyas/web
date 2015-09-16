@@ -1,7 +1,6 @@
 package com.search.service;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +49,8 @@ public class SolrEngine {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("responseCode==" + responseCode);
-		System.out.println("sbResult==" + result.toJSONString());
+		log.info("responseCode==" ,responseCode);
+		log.info("sbResult==" , result.toJSONString());
 		return responseCode;
 	}
 
