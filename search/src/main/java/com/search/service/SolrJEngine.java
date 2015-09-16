@@ -6,10 +6,10 @@ import java.util.Collection;
 import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrRequest.METHOD;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
-import org.apache.solr.client.solrj.impl.LBHttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -31,10 +31,7 @@ public class SolrJEngine {
 			final String zkHost) {
 		if (cloudSolrServer == null) {
 			try {
-				LBHttpSolrServer lbServer = new LBHttpSolrServer(
-						ConfigProperties
-								.getPropertiesArrayValue("solr.servers"));
-				cloudSolrServer = new CloudSolrServer(zkHost, lbServer);
+				cloudSolrServer = new CloudSolrServer(zkHost);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -85,19 +82,27 @@ public class SolrJEngine {
 	 */
 	public static void search(SolrServer solrServer, String query) {
 		SolrQuery solrQuery = new SolrQuery();
-		solrQuery.setQuery(query);
+		solrQuery.setQuery("*:*").setStart(0).setRows(100)
+				.addFilterQuery("{!geofilt}")
+				.setParam("pt", "39.991861,116.424724")
+				.setParam("sfield", "store").setParam("d", "1")
+				.setFields("distance:geodist()", "*")
+				.addSort("geodist()", SolrQuery.ORDER.asc);
+		solrQuery.setParam("shards.tolerant", true);
 		try {
-			QueryResponse response = solrServer.query(solrQuery);
+			QueryResponse response = solrServer.query(solrQuery, METHOD.POST);
 			SolrDocumentList docs = response.getResults();
 
 			log.info("文档个数：" + docs.getNumFound());
 			log.info("查询时间：" + response.getQTime());
 
 			for (SolrDocument doc : docs) {
-				String name = (String) doc.getFieldValue("name");
+				String username = (String) doc.getFieldValue("username");
 				String id = (String) doc.getFieldValue("id");
-				log.info("id: " + id);
-				log.info("name: " + name);
+				String sid = (String) doc.getFieldValue("sid");
+				Double distance = (Double) doc.getFieldValue("distance");
+				log.info("id::{} sid::{} username::{} distance::{}", id, sid,
+						username, distance*1000);
 			}
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -130,7 +135,6 @@ public class SolrJEngine {
 
 	public static void main(String[] args) {
 		// TODO 修改相应的地址与端口
-		final String zkHost = "127.0.0.1:2181";
 		final String defaultCollection = "db";
 		final int zkClientTimeout = 20000;
 		final int zkConnectTimeout = 1000;

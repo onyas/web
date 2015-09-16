@@ -1,6 +1,7 @@
 package com.hdhd.search.test;
 
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.apache.solr.client.solrj.impl.LBHttpSolrServer;
 import org.apache.solr.common.cloud.ClusterState;
 import org.apache.solr.common.cloud.ZkStateReader;
 import org.junit.After;
@@ -19,7 +20,7 @@ public class SolrJEngineTest {
 
 	@Before
 	public void init() {
-		// TODO 修改相应的地址与端口
+		// TODO 修改相应的地址与端口，如果有多个zk,中间用逗号分开
 		final String zkHost = "127.0.0.1:2181";
 		final String defaultCollection = "db";
 		final int zkClientTimeout = 20000;
@@ -52,6 +53,7 @@ public class SolrJEngineTest {
 
 	@Test
 	public void testSearch() throws Exception {
+		//*:*&wt=json&start=0&rows=1000&fq={!geofilt}&pt=39.991861,116.424724&sfield=store&d=0.5&sort=geodist()%20asc&fl=distance:geodist(),*
 		SolrJEngine.search(cloudSolrServer, "*:*");
 	}
 
