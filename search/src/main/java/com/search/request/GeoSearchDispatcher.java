@@ -34,6 +34,9 @@ public class GeoSearchDispatcher implements Dispatcher {
 			data.put("add", doc);
 			log.info("data::{}", data.toJSONString());
 			return solrEngine.updateIndex(Constant.GEOCORENAME, data);
+		} else if (geoIndex.getOption().equals("add")) {
+			return solrEngine.updateIndex(Constant.GEOCORENAME,
+					geoIndex.getParam());
 		}
 		return null;
 	}

@@ -13,7 +13,6 @@ public class GeoIndexBuilder {
 
 	public GeoIndexBuilder(GeoIndexDO geoIndex) {
 		Validate.notNull(geoIndex);
-		Validate.notNull(geoIndex.getSid());
 		Validate.notNull(geoIndex.getOption());
 		this.geoIndex = geoIndex;
 		data = new JSONObject();
