@@ -1,6 +1,7 @@
 package com.hdhd.search.test;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.junit.Before;
@@ -63,16 +64,30 @@ public class SolrEngineTest {
 	@Test
 	public void testAddIndex() {
 		// 新增索引格式
-		String data = "{\"add\":{\"doc\":{\"id_key\":\"addf\",\"title_text\":\"test1\",\"content_text\":\"test1\"}}}";
-		// solrEngine.updateIndex(coreName, data);
+		JSONObject data = new JSONObject();
+		JSONObject doc = new JSONObject();
+		JSONObject jsonData = new JSONObject();
+		jsonData.put("sid", "999");
+		jsonData.put("id", "999");
+		jsonData.put("openid", "999");
+		jsonData.put("username", "999");
+		jsonData.put("mobile", 999);
+		jsonData.put("createtime", new Date());
+		jsonData.put("store", "39.991861,116.424724");
+		doc.put("doc", jsonData);
+		data.put("add", doc);
+		int result = solrEngine.updateIndex(coreName, data);
+		log.info("addIndex result::{}", result);
 	}
 
 	/***
-	 * 更新指定ID的索引,可以更新部分字段的值,有add,set,inc三个指令,具体可参考指南中的Updating Parts of Documents
+	 * 更新指定ID的索引,可以更新部分字段的值,有add,set,inc三个指令,具体可参考指南中的Updating Parts of
+	 * Documents
 	 */
 	@Test
 	public void testAtomicUpdateIndex() {
-		// 更新索引格式 {"add":{"doc":{"sid":"1274651996619776","store":{"set":"39.991861,116.424724"}}}}
+		// 更新索引格式
+		// {"add":{"doc":{"sid":"1274651996619776","store":{"set":"39.991861,116.424724"}}}}
 		JSONObject jsondata = new JSONObject();
 		JSONObject store = new JSONObject();
 		store.put("set", "39.991861,116.424724");

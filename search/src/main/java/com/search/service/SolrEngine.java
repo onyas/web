@@ -38,20 +38,18 @@ public class SolrEngine {
 		requestUrl.append(coreName);
 		requestUrl.append("/update/json?commit=true");
 
-		int responseCode = 0;
 		JSONObject result = new JSONObject();
 		log.info("SolrEngine requestUrl::{},data::{}", requestUrl.toString(),
 				data.toJSONString());
 		try {
-			System.out.println(requestUrl.toString());
 			GenericUrl url = new GenericUrl(requestUrl.toString());
 			result = HttpHelper.requestPostJSON(url, data, 5000);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		log.info("responseCode==" ,responseCode);
-		log.info("sbResult==" , result.toJSONString());
-		return responseCode;
+		log.info("status::{}", result.getJSONObject("responseHeader")
+				.getIntValue("status"));
+		return result.getJSONObject("responseHeader").getIntValue("status");
 	}
 
 	/***

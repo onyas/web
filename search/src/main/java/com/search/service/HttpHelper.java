@@ -98,12 +98,8 @@ public class HttpHelper {
 			HttpResponse response = future.get(timeout, TimeUnit.MILLISECONDS);
 			String result = response.parseAsString();
 			JSONObject jsonResult = JSON.parseObject(result);
-			log.info("get message result ::{}", jsonResult.toJSONString());
-			if (0 == jsonResult.getIntValue("errorcode")) {
-				return jsonResult;
-			} else {
-				log.error("get message result ::{}", result);
-			}
+			log.info("get message result::{}", jsonResult.toJSONString());
+			return jsonResult;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
