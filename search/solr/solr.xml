@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<solr sharedLib="lib" persistent="true">
+	<cores adminPath="/admin/cores" host="${host:}" hostPort="8081" hostContext="search" >
+		<core loadOnStartup="true" default="true" instanceDir="db" name="db" shard="shard1" transient="false"/>
+		<core loadOnStartup="true" default="false" instanceDir="rss" name="rss" shard="shard1" transient="false"/>
+		<core loadOnStartup="true" default="false" instanceDir="mail" name="mail" shard="shard1" transient="false" />
+		<core loadOnStartup="true" default="false" instanceDir="tika" name="tika" shard="shard1" transient="false"/>
+		<core loadOnStartup="true" default="false" instanceDir="solr" name="solr" shard="shard1" transient="false"/>
+	</cores>
+</solr>

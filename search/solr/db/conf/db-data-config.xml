@@ -1,0 +1,19 @@
+<dataConfig>
+    <dataSource driver="com.mysql.jdbc.Driver" url="jdbc:mysql://192.168.2.102:3306/userbase" user="hwei" password="123456" />
+    <document>
+        <entity name="users" pk="ID" query="select * from s_user">
+			<!--column是数据库中的列，name是solr中的filed，别弄反了-->
+			<field column="sid" name="sid" />
+			<field column="id" name="id" />
+			<field column="username" name="username" />
+			<field column="open_id" name="openid" />
+			<field column="mobile" name="mobile" />
+			<field column="createtime" name="createtime" />
+			<entity name="userdetail" query="select CONCAT(substring_index(substring_index (registorlocation,',',2),',',-1),',',substring_index (registorlocation,',',1)) as dingdang ,substring_index (registorlocation,',',-1) as radius from s_user_detail where user_id='${users.id}' and registorlocation is not null">
+				<field column="dingdang" name="store" />
+				<field column="radius" name="radius" />
+			</entity>
+		</entity>
+    </document>
+</dataConfig>
+
